@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use App\Models\ArsipKeluar;
+use App\Models\ArsipMasuk;
 
 use Illuminate\Http\Request;
 
@@ -13,7 +15,13 @@ class headController extends Controller
     {
         if (Gate::allows('isHead')) {
 
-            return view('head/head_dashboard');
+            $inboxCount = ArsipMasuk::count();
+            $outboxCount = ArsipKeluar::count();
+
+            return view('head/head_dashboard',  [
+                'inboxCount' => $inboxCount,
+                'outboxCount' => $outboxCount,
+            ]);
 
         } else {
             abort(403, 'Unauthorized action.');
@@ -41,5 +49,7 @@ class headController extends Controller
 
         return redirect()->route('head.profile')->with('success', 'Profil berhasil diperbarui.');
     }
+
+    
 
 }
