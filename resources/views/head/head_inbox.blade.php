@@ -13,39 +13,16 @@
     @foreach($arsipmasuk as $arsipmasuks)
     <div class="card card-primary">
         <div class="list-group">
-            <a href="{{ route('arsip.detailinbox', $arsipmasuks->id) }}" class="list-group-item list-group-item-action flex-column align-items-start">
+            <a href="{{ route('head.detailinbox', $arsipmasuks->id) }}" class="list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">{{ $arsipmasuks->nomor_surat }}</h5>
-                    <small>Senin/ 5 Februari 2024</small>
+                    <small>{{ \Carbon\Carbon::parse($arsipmasuks->tanggal_surat)->isoFormat('dddd, D MMMM YYYY') }}</small>
                 </div>
-                <p class="mb-1">Dinas Komunikasi & Informatika Padang | Nomor Agenda: 123 | Undangan Rapat</p>
-                <h6>Undangan menghadiri rapat untuk Bidang IPDS dalam pembahasan publikasi Padang Dalam Angka</h6>
+                <p class="mb-1">{{ $arsipmasuks->pengirim }} | Nomor Agenda: {{ $arsipmasuks->nomor_agenda }}</p>
+                <h6>{{ $arsipmasuks->ringkasan }}</h6>
             </a>
         </div>
     </div>
-    <div class="card card-primary">
-        <div class="list-group">
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">2024/DISKOMINFO-KP/32</h5>
-                    <small>Senin/ 5 Februari 2024</small>
-                </div>
-                <p class="mb-1">Dinas Komunikasi & Informatika Padang | Nomor Agenda: 123 | Undangan Rapat</p>
-                <h6>Undangan menghadiri rapat untuk Bidang IPDS dalam pembahasan publikasi Padang Dalam Angka</h6>
-            </a>
-        </div>
-    </div>
-    <div class="card card-primary">
-        <div class="list-group">
-            <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-                <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">2024/DISKOMINFO-KP/32</h5>
-                    <small>Senin/ 5 Februari 2024</small>
-                </div>
-                <p class="mb-1">Dinas Komunikasi & Informatika Padang | Nomor Agenda: 123 | Undangan Rapat</p>
-                <h6>Undangan menghadiri rapat untuk Bidang IPDS dalam pembahasan publikasi Padang Dalam Angka</h6>
-            </a>
-        </div>
-    </div>
+    @endforeach
 </div>
 @endsection

@@ -241,5 +241,26 @@ class ArsipController extends Controller
         return view('head/head_inbox', compact('arsipmasuk'));
     }
 
+    public function headdetailinbox($id) {
+        $arsipmasuk = ArsipMasuk::FindOrFail($id);
+        \Carbon\Carbon::setLocale('id');
+        return view('head.head_detail', compact ('arsipmasuk'));
+    }
+
+    public function headoutbox()
+    {
+        $arsipkeluar = ArsipKeluar::all();
+
+        \Carbon\Carbon::setLocale('id');
+
+        return view('head/head_outbox', compact('arsipkeluar'));
+    }
+
+    public function headdetailoutbox($id) {
+        $arsipkeluar =ArsipKeluar::FindOrFail($id);
+        \Carbon\Carbon::setLocale('id');
+        return view('head.head_detailoutbox', compact ('arsipkeluar'));
+    }
+
 
 }

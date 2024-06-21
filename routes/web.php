@@ -63,19 +63,12 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:head'])->group(function () {
         Route::get('/head', [headController::class, 'index'])->name('headoffice.dashboard');
 
-        Route::get('/headinbox', function () {
-            return view('head/head_inbox');
-        });
+        Route::get('/headinbox', [ArsipController::class, 'headinbox']) -> name ('head.inbox');
+        Route::get('/headinbox/{id}', [ArsipController::class, 'headdetailinbox']) -> name ('head.detailinbox');
+        Route::get('/headoutbox', [ArsipController::class, 'headoutbox']) -> name ('head.outbox');
+        Route::get('/headoutbox/{id}', [ArsipController::class, 'headdetailoutbox']) -> name ('head.detailoutbox');
 
-        Route::get('/headoutbox', function () {
-            return view('head/head_outbox');
-        });
-
-        Route::get('/headdetail', function () {
-            return view('head/head_detail');
-        });
-
-
+        
         Route::get('/headagenda', [ArsipController::class, 'headagenda']) -> name ('head.agenda');
 
         Route::get('/headdaftarpengajuan', function () {
@@ -86,6 +79,7 @@ Route::middleware(['auth'])->group(function () {
             return view('head/head_tindaklanjut_pengajuan');
         });
 
+        
         Route::get('/headprofile', [HeadController::class, 'profile'])->name('head.profile');
         Route::put('/head/editprofile', [HeadController::class, 'updateProfile'])->name('head.profileupdate');
 
