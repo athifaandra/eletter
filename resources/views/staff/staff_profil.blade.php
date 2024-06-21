@@ -21,7 +21,7 @@
         <div class="tab-pane active" id="profile">
             <!-- Konten untuk Profil -->
             <h3>Informasi Profil</h3>
-            <form method="POST" action="{{ route('staff.profileupdate', $user->id) }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('staff.update', $user->id) }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="form-group">
@@ -54,8 +54,8 @@
         </div>
         <div class="tab-pane" id="password">
             <!-- Konten untuk Password -->
-            <h3>Ganti Password</h3>
-            <form>
+            <form method="POST" action="{{ route('staff.updatePassword') }}">
+            @csrf
                 <div class="form-group">
                     <label for="current_password">Password Saat Ini</label>
                     <input type="password" class="form-control" id="current_password" name="current_password" required>

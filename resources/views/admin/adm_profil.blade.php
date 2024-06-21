@@ -8,6 +8,22 @@
 @endsection
 
 @section('content')
+    @if (session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
+    @endif
+
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
     <ul class="nav nav-tabs">
         <li class="nav-item">
             <a class="nav-link active" href="#profile" data-toggle="tab">Profil</a>
@@ -40,7 +56,8 @@
         <div class="tab-pane" id="password">
             <!-- Konten untuk Password -->
             <h3>Ganti Password</h3>
-            <form>
+            <form method="POST" action="{{ route('admin.updatePassword') }}">
+                @csrf
                 <div class="form-group">
                     <label for="current_password">Password Saat Ini</label>
                     <input type="password" class="form-control" id="current_password" name="current_password" required>

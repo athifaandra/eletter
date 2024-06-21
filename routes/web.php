@@ -33,9 +33,7 @@ Route::middleware(['auth'])->group(function () {
             return view('admin/adm_status_pengajuan');
         });
 
-        Route::get('/adminprofil', function () {
-            return view('admin/adm_profil');
-        });
+
 
         Route::get('/admininbox', [ArsipController::class, 'inbox']) -> name ('arsip.inbox');
         Route::get('/tambahinbox', [ArsipController::class, 'tambahinbox']) ->name('arsip.tambahinbox');
@@ -60,6 +58,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/edituser/{id}', [UserController::class, 'edit'])->name('user.edit');
         Route::put('/updateuser/{id}', [UserController::class, 'update'])->name('user.update');
 
+
+        Route::get('/adminprofil', [adminController::class, 'Profile'])->name('admin.profile');
+        Route::post('/profile/update', [adminController::class, 'updateProfile'])->name('profile.update');
+        Route::post('/adminpassword', [adminController::class, 'updatePassword'])->name('admin.updatePassword');
     });
 
 
@@ -93,6 +95,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/headprofil', function () {
             return view('head/head_profil');
         });
+
+        Route::get('/headprofil', [headController::class, 'Profile'])->name('head.profile');
+        Route::post('/profile/update', [headController::class, 'updateProfile'])->name('profile.update');
+        Route::post('/headpassword', [headController::class, 'updatePassword'])->name('head.updatePassword');
     });
 
 
@@ -111,15 +117,16 @@ Route::middleware(['auth'])->group(function () {
             return view('staff/staff_create');
         });
 
-        Route::get('/stafprofil', function () {
+        Route::get('/staffprofile', function () {
             return view('staff/staff_profil');
         });
 
         Route::get('/staffprofile', [StaffController::class, 'profile'])->name('staff.profile');
-        Route::put('/staff/editprofile', [StaffController::class, 'updateProfile'])->name('staff.profileupdate');
-
-
+        Route::post('/staff/update', [StaffController::class, 'updateProfile'])->name('staff.update');
+        Route::post('/staffpassword', [StaffController::class, 'updatePassword'])->name('staff.updatePassword');
     });
+
+
 });
 
 
