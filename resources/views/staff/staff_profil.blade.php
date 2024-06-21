@@ -8,6 +8,24 @@
 @endsection
 
 @section('content')
+    <!-- Tambahkan skrip untuk menampilkan popup jika ada pesan sukses -->
+    @if (session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'Berhasil!',
+                    text: "{{ session('success') }}",
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "{{ route('staff.dashboard') }}";
+                    }
+                });
+            });
+        </script>
+    @endif
+
     <ul class="nav nav-tabs">
         <li class="nav-item">
             <a class="nav-link active" href="#profile" data-toggle="tab">Profil</a>
@@ -33,7 +51,7 @@
                     <input type="text" class="form-control" id="nip" name="nip" value="{{ $user->nip }}" required>
                 </div>
                 <div class="form-group">
-                    <label for="position">Jabatan</label>
+                    <label for="jabatan">Jabatan</label>
                     <select class="form-control" id="jabatan" name="jabatan" required>
                         <option value="Kasubag Umum" {{ $user->jabatan == 'Kasubag Umum' ? 'selected' : '' }}>Kasubag Umum</option>
                         <option value="Statistisi Mahir" {{ $user->jabatan == 'Statistisi Mahir' ? 'selected' : '' }}>Statistisi Mahir</option>

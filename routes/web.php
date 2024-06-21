@@ -33,10 +33,6 @@ Route::middleware(['auth'])->group(function () {
             return view('admin/adm_status_pengajuan');
         });
 
-        Route::get('/adminprofil', function () {
-            return view('admin/adm_profil');
-        });
-
         Route::get('/admininbox', [ArsipController::class, 'inbox']) -> name ('arsip.inbox');
         Route::get('/tambahinbox', [ArsipController::class, 'tambahinbox']) ->name('arsip.tambahinbox');
         Route::post('/tambahinbox', [ArsipController::class, 'storeinbox']) ->name ('arsip.storeinbox');
@@ -59,6 +55,9 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/hapususer/{user}', [UserController::class, 'destroy'])->name('user.destroy');
         Route::get('/edituser/{id}', [UserController::class, 'edit'])->name('user.edit');
         Route::put('/updateuser/{id}', [UserController::class, 'update'])->name('user.update');
+
+        Route::get('/adminprofile', [AdminController::class, 'profile'])->name('admin.profile');
+        Route::put('/admin/editprofile', [AdminController::class, 'updateProfile'])->name('admin.profileupdate');
 
     });
 
@@ -90,9 +89,9 @@ Route::middleware(['auth'])->group(function () {
             return view('head/head_tindaklanjut_pengajuan');
         });
 
-        Route::get('/headprofil', function () {
-            return view('head/head_profil');
-        });
+        Route::get('/headprofile', [HeadController::class, 'profile'])->name('head.profile');
+        Route::put('/head/editprofile', [HeadController::class, 'updateProfile'])->name('head.profileupdate');
+
     });
 
 
@@ -109,10 +108,6 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/stafcreate', function () {
             return view('staff/staff_create');
-        });
-
-        Route::get('/stafprofil', function () {
-            return view('staff/staff_profil');
         });
 
         Route::get('/staffprofile', [StaffController::class, 'profile'])->name('staff.profile');
