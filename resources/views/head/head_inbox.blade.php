@@ -10,16 +10,12 @@
 
 @section('content')
 <div class="section-body">
-    {{-- <div class="section-title">
-        <a href="/editinbox" class="btn btn-icon icon-left btn-primary" style="margin-bottom: 20px;">
-            <i class="fas fa-plus"></i> Tambah Surat
-        </a>
-    </div> --}}
+    @foreach($arsipmasuk as $arsipmasuks)
     <div class="card card-primary">
         <div class="list-group">
-            <a href="/detailsurat" class="list-group-item list-group-item-action flex-column align-items-start">
+            <a href="{{ route('arsip.detailinbox', $arsipmasuks->id) }}" class="list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">2024/DISKOMINFO-KP/32</h5>
+                    <h5 class="mb-1">{{ $arsipmasuks->nomor_surat }}</h5>
                     <small>Senin/ 5 Februari 2024</small>
                 </div>
                 <p class="mb-1">Dinas Komunikasi & Informatika Padang | Nomor Agenda: 123 | Undangan Rapat</p>

@@ -24,7 +24,6 @@
                 <select class="form-control">
                   <option>Surat Masuk</option>
                   <option>Surat Keluar</option>
-                  <option>Option 3</option>
                 </select>
             </div>
           <div class="card-header-action">
@@ -45,27 +44,19 @@
                     </tr>
                   </thead>
                   <tbody>
+                    @foreach($dataSurat as $surat)
                     <tr>
-                      <td>432</td>
-                      <td>2024/DISKOMINFO-KP/032</td>
-                      <td>Dinas Komunikasi & Informasi</td>
-                      <td>22 Maret 2024</td>
-                      <td><div class="badge badge-primary">Permintaan Data</div></td>
+                        <td>{{ $surat->nomor_agenda }}</td>
+                        <td>{{ $surat->nomor_surat }}</td>
+                        <td>{{ $surat->instansi }}</td>
+                        <td>{{ $surat->tanggal_agenda }}</td>
+                        <td>
+                            <div class="badge badge-{{ Arr::random(['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark']) }}">
+                                {{ $surat->ringkasan }}
+                            </div>
+                        </td>
                     </tr>
-                    <tr>
-                        <td>432</td>
-                        <td>2024/DISKOMINFO-KP/032</td>
-                        <td>Dinas Komunikasi & Informasi</td>
-                        <td>22 Maret 2024</td>
-                        <td><div class="badge badge-success">Undangan Rapat</div></td>
-                    </tr>
-                    <tr>
-                        <td>432</td>
-                        <td>2024/DISKOMINFO-KP/032</td>
-                        <td>Dinas Komunikasi & Informasi</td>
-                        <td>22 Maret 2024</td>
-                        <td><div class="badge badge-danger">Surat Cuti</div></td>
-                    </tr>
+                    @endforeach
                   </tbody>
                 </table>
             </div>
@@ -73,3 +64,33 @@
     </div>
 </div>
 @endsection
+
+<!-- Pastikan jQuery sudah dimuat sebelum kode ini -->
+<script>
+    $(document).ready(function() {
+        // Aksi saat tombol Saring diklik
+        $('#btnFilter').click(function(e) {
+            e.preventDefault(); // Mencegah pengiriman form secara default
+
+            // Ambil nilai dari input tanggal dan jenis surat
+            var dariTanggal = $('#dari_tanggal').val();
+            var sampaiTanggal = $('#sampai_tanggal').val();
+            var jenisSurat = $('#jenis_surat').val();
+
+            // Lakukan sesuatu dengan nilai-nilai tersebut, misalnya kirim AJAX request atau ubah URL
+
+            // Contoh output nilai ke konsol
+            console.log('Dari Tanggal:', dariTanggal);
+            console.log('Sampai Tanggal:', sampaiTanggal);
+            console.log('Jenis Surat:', jenisSurat);
+        });
+
+        // Aksi saat tombol Cetak diklik
+        $('#btnCetak').click(function(e) {
+            e.preventDefault(); // Mencegah pengiriman form secara default
+
+            // Lakukan aksi pencetakan, misalnya membuka halaman cetak atau menyiapkan data untuk cetak
+        });
+    });
+</script>
+

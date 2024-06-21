@@ -75,7 +75,7 @@ class ArsipController extends Controller
             'tanggal_agenda' => 'required',
             'tanggal_surat' => 'required',
             'ringkasan' => 'required',
-            'lampiran' => 'sometimes|nullable|mimes:pdf', 
+            'lampiran' => 'sometimes|nullable|mimes:pdf',
         ]);
 
         $arsipmasuk = ArsipMasuk::findOrFail($id);
@@ -195,5 +195,51 @@ class ArsipController extends Controller
         $arsipkeluar->delete();
         return redirect()->route('arsip.outbox')->with('success', 'Arsip berhasil dihapus.');
     }
+
+    public function agenda()
+    {
+        $suratKeluar = ArsipKeluar::select('nomor_surat', 'penerima as instansi', 'nomor_agenda', 'tanggal_agenda', 'tanggal_surat', 'ringkasan', 'lampiran');
+
+        $suratMasuk = ArsipMasuk::select('nomor_surat', 'pengirim as instansi', 'nomor_agenda', 'tanggal_agenda', 'tanggal_surat', 'ringkasan', 'lampiran');
+
+        // Menggabungkan hasil dari kedua query
+        $dataSurat = $suratKeluar->union($suratMasuk)->get();
+
+        return view('admin.agenda', compact('dataSurat'));
+    }
+
+    public function staffagenda()
+    {
+        $suratKeluar = ArsipKeluar::select('nomor_surat', 'penerima as instansi', 'nomor_agenda', 'tanggal_agenda', 'tanggal_surat', 'ringkasan', 'lampiran');
+
+        $suratMasuk = ArsipMasuk::select('nomor_surat', 'pengirim as instansi', 'nomor_agenda', 'tanggal_agenda', 'tanggal_surat', 'ringkasan', 'lampiran');
+
+        // Menggabungkan hasil dari kedua query
+        $dataSurat = $suratKeluar->union($suratMasuk)->get();
+
+        return view('staff.staff_agenda', compact('dataSurat'));
+    }
+
+    public function headagenda()
+    {
+        $suratKeluar = ArsipKeluar::select('nomor_surat', 'penerima as instansi', 'nomor_agenda', 'tanggal_agenda', 'tanggal_surat', 'ringkasan', 'lampiran');
+
+        $suratMasuk = ArsipMasuk::select('nomor_surat', 'pengirim as instansi', 'nomor_agenda', 'tanggal_agenda', 'tanggal_surat', 'ringkasan', 'lampiran');
+
+        // Menggabungkan hasil dari kedua query
+        $dataSurat = $suratKeluar->union($suratMasuk)->get();
+
+        return view('head.head_agenda', compact('dataSurat'));
+    }
+
+    public function headinbox()
+    {
+        $arsipmasuk = ArsipMasuk::all();
+
+        \Carbon\Carbon::setLocale('id');
+
+        return view('head/head_inbox', compact('arsipmasuk'));
+    }
+
 
 }
