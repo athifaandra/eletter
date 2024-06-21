@@ -45,7 +45,7 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/updateoutbox/{id}', [ArsipController::class, 'updateoutbox']) -> name ('arsip.updateoutbox');
         Route::delete('/hapusoutbox/{arsipkeluar}', [ArsipController::class, 'destroyoutbox'])->name('arsip.destroyoutbox');
 
-        Route::get('agenda', [ArsipController::class, 'agenda']) -> name ('agenda');
+        Route::get('/agenda', [ArsipController::class, 'agenda']) -> name ('agenda');
 
         Route::get('/kelolauser', [UserController::class, 'index']) -> name('user.index');
         Route::get('/tambahuser', [UserController::class, 'create'])->name('user.create');

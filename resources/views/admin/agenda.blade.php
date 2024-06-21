@@ -13,27 +13,28 @@
         <div class="card-header">
             <div class="form-group" style="margin-right: 150px;">
                 <label>Dari Tanggal</label>
-                <input type="date" class="form-control">
+                <input type="date" class="form-control" id="dari_tanggal">
             </div>
             <div class="form-group" style="margin-right: 150px;">
                 <label>Sampai Tanggal</label>
-                <input type="date" class="form-control">
+                <input type="date" class="form-control" id="sampai_tanggal">
             </div>
-            <div class="form-group" style="margin-right: 275px;">
+            <div class="form-group" style="margin-right: 250px;">
                 <label>Jenis Surat</label>
-                <select class="form-control">
-                  <option>Surat Masuk</option>
-                  <option>Surat Keluar</option>
+                <select class="form-control" id="jenis_surat">
+                  <option value="">Semua Surat</option>
+                  <option value="masuk">Surat Masuk</option>
+                  <option value="keluar">Surat Keluar</option>
                 </select>
             </div>
           <div class="card-header-action">
-            <a href="#" class="btn btn-warning">Saring</a>
-            <a href="#" class="btn btn-info">Cetak</a>
+            <a href="#" class="btn btn-warning" id="btnFilter">Saring</a>
+            <a href="#" class="btn btn-info" id="btnCetak">Cetak</a>
           </div>
         </div>
         <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-striped">
+                <table class="table table-striped" id="agendaTable">
                   <thead>
                     <tr>
                       <th scope="col">Nomor Agenda</th>
@@ -46,11 +47,11 @@
                   <tbody>
                     @foreach($dataSurat as $surat)
                     <tr>
-                        <td>{{ $surat->nomor_agenda }}</td>
-                        <td>{{ $surat->nomor_surat }}</td>
-                        <td>{{ $surat->instansi }}</td>
-                        <td>{{ $surat->tanggal_agenda }}</td>
-                        <td>
+                        <td class="medium-text">{{ $surat->nomor_agenda }}</td>
+                        <td class="medium-text">{{ $surat->nomor_surat }}</td>
+                        <td class="medium-text">{{ $surat->instansi }}</td>
+                        <td class="medium-text">{{ $surat->tanggal_agenda }}</td>
+                        <td class="medium-text jenis-surat">
                             <div class="badge badge-{{ Arr::random(['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark']) }}">
                                 {{ $surat->ringkasan }}
                             </div>
@@ -65,7 +66,18 @@
 </div>
 @endsection
 
-<!-- Pastikan jQuery sudah dimuat sebelum kode ini -->
+<style>
+  .medium-text {
+      font-size: 0.875rem;
+  }
+</style>
+
+<!-- Muat jQuery dan jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
+
+@section('scripts')
 <script>
     $(document).ready(function() {
         // Aksi saat tombol Saring diklik
@@ -77,20 +89,51 @@
             var sampaiTanggal = $('#sampai_tanggal').val();
             var jenisSurat = $('#jenis_surat').val();
 
-            // Lakukan sesuatu dengan nilai-nilai tersebut, misalnya kirim AJAX request atau ubah URL
-
-            // Contoh output nilai ke konsol
-            console.log('Dari Tanggal:', dariTanggal);
-            console.log('Sampai Tanggal:', sampaiTanggal);
-            console.log('Jenis Surat:', jenisSurat);
+            // Mengirim permintaan AJAX ke endpoint agenda dengan data yang diperlukan
+            $.ajax({
+                url: "{{ route('agenda') }}",
+                type: "GET",
+                data: {
+                    dari_tanggal: dariTanggal,
+                    sampai_tanggal: sampaiTanggal,
+                    jenis_surat: jenisSurat
+                },
+                success: function(response) {
+                    // Mengganti konten tabel dengan hasil penyaringan yang baru
+                    $('#agendaTable tbody').html(response);
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                }
+            });
         });
 
-        // Aksi saat tombol Cetak diklik
         $('#btnCetak').click(function(e) {
             e.preventDefault(); // Mencegah pengiriman form secara default
 
-            // Lakukan aksi pencetakan, misalnya membuka halaman cetak atau menyiapkan data untuk cetak
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Tambahkan judul
+            doc.setFontSize(16);
+            doc.text('Agenda BPS Kota Padang', 105, 22, { align: 'center' });
+
+            // Ambil konten tabel
+            doc.autoTable({
+                html: '#agendaTable',
+                startY: 30,
+                theme: 'grid',
+                headStyles: {
+                    fillColor: [22, 160, 133]
+                },
+                styles: {
+                    minCellHeight: 10,
+                    halign: 'center'
+                }
+            });
+
+            // Simpan PDF
+            doc.save('agenda.pdf');
         });
     });
 </script>
-

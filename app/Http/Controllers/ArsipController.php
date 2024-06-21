@@ -198,15 +198,15 @@ class ArsipController extends Controller
 
     public function agenda()
     {
-        $suratKeluar = ArsipKeluar::select('nomor_surat', 'penerima as instansi', 'nomor_agenda', 'tanggal_agenda', 'tanggal_surat', 'ringkasan', 'lampiran');
-
-        $suratMasuk = ArsipMasuk::select('nomor_surat', 'pengirim as instansi', 'nomor_agenda', 'tanggal_agenda', 'tanggal_surat', 'ringkasan', 'lampiran');
+        $suratKeluar = ArsipKeluar::select('nomor_agenda', 'nomor_surat', 'penerima as instansi', 'tanggal_agenda', 'ringkasan');
+        $suratMasuk = ArsipMasuk::select('nomor_agenda', 'nomor_surat', 'pengirim as instansi', 'tanggal_agenda', 'ringkasan');
 
         // Menggabungkan hasil dari kedua query
         $dataSurat = $suratKeluar->union($suratMasuk)->get();
 
         return view('admin.agenda', compact('dataSurat'));
     }
+
 
     public function staffagenda()
     {
@@ -261,6 +261,8 @@ class ArsipController extends Controller
         \Carbon\Carbon::setLocale('id');
         return view('head.head_detailoutbox', compact ('arsipkeluar'));
     }
+
+
 
 
 }
