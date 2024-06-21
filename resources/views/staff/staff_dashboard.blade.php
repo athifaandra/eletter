@@ -16,7 +16,7 @@
                     <i class="far fa-star"></i>
                 </div>
                 <h4>Welcome, Staff!</h4>
-                <div class="card-description">Monday, 1 April 2024</div>
+                <div class="card-description">{{ \Carbon\Carbon::now()->format('l, j F Y') }}</div>
                 </div>
             </div>
         </div>

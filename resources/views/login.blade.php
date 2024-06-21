@@ -16,7 +16,8 @@
   <link rel="stylesheet" href="assets/css/style.css">
   <link rel="stylesheet" href="assets/css/components.css">
 
-
+  <!-- SweetAlert CSS -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- Start GA -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>

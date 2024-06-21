@@ -8,6 +8,7 @@
 @endsection
 
 @section('content')
+<<<<<<< HEAD
     @if (session('status'))
         <div class="alert alert-success">
             {{ session('status') }}
@@ -22,6 +23,23 @@
                 @endforeach
             </ul>
         </div>
+=======
+    @if (session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'Berhasil!',
+                    text: "{{ session('success') }}",
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "{{ route('admin.dashboard') }}";
+                    }
+                });
+            });
+        </script>
+>>>>>>> faf83a3e2b3b386a617f4f310c26abfc214770c3
     @endif
 
     <ul class="nav nav-tabs">
@@ -37,18 +55,20 @@
         <div class="tab-pane active" id="profile">
             <!-- Konten untuk Profil -->
             <h3>Informasi Profil</h3>
-            <form>
+            <form method="POST" action="{{ route('admin.profileupdate', $user->id) }}" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
                 <div class="form-group">
                     <label for="name">Nama</label>
-                    <input type="text" class="form-control" id="name" name="name" value="John Doe" required>
+                    <input type="text" class="form-control" id="name" name="name" value="{{ $user->name }}" required>
                 </div>
                 <div class="form-group">
                     <label for="nip">NIP</label>
-                    <input type="text" class="form-control" id="nip" name="nip" value="123456789" required>
+                    <input type="text" class="form-control" id="nip" name="nip" value="{{ $user->nip }}" required>
                 </div>
                 <div class="form-group">
                     <label for="position">Jabatan</label>
-                    <input type="text" class="form-control" id="position" name="position" value="Admin" readonly>
+                    <input type="text" class="form-control" id="position" name="position" value="{{ $user->jabatan }}" readonly>
                 </div>
                 <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
             </form>

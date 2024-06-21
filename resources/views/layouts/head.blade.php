@@ -24,10 +24,14 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
 
+  <!-- SweetAlert CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <!-- Start GA -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
     <script src="{{ asset('js/app.js') }}"></script>
-    <script src="{{ asset('assets/modules/jquery.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/modules/jquery.min.js') }}"></script> --}}
 
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -69,7 +73,7 @@
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <div class="dropdown-divider"></div>
-                            <a href="/headprofil" class="dropdown-item has-icon">
+                            <a href="/headprofile" class="dropdown-item has-icon">
                                 <i class="fas fa-user-circle"></i> Profil
                             </a>
                             <a href="/" class="dropdown-item has-icon text-danger">
@@ -182,6 +186,24 @@
 
     <!-- Additional Scripts -->
     @stack('page-scripts')
+
+    @if(Session::has('success'))
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            Swal.fire({
+                title: 'Berhasil!',
+                text: "{{ Session::get('success') }}",
+                icon: 'success',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "#";
+                }
+            });
+        });
+    </script>
+  @endif
+
 </body>
 
 </html>

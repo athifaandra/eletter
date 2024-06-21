@@ -16,7 +16,7 @@
         </a>
     </div>
     @if($arsipkeluar->isEmpty())
-        <p>Tidak ada arsip surat masuk yang tersedia.</p>
+        <p>Tidak ada arsip surat keluar yang tersedia.</p>
     @else
         @foreach($arsipkeluar as $arsipkeluars)
             <div class="card card-primary mb-3">

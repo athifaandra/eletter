@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
+<<<<<<< HEAD
 use Illuminate\Support\Facades\Hash;
+=======
+use App\Models\User;
+>>>>>>> faf83a3e2b3b386a617f4f310c26abfc214770c3
 
 class adminController extends Controller
 {
@@ -53,6 +57,7 @@ public function updatePassword(Request $request)
         return back()->withErrors(['current_password' => 'Password saat ini tidak sesuai.']);
     }
 
+<<<<<<< HEAD
     $user = Auth::user();
     $user->password = Hash::make($request->new_password);
 
@@ -63,4 +68,29 @@ public function updatePassword(Request $request)
         return back()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan password baru.']);
     }
 }
+=======
+    public function profile()
+    {
+        $user = auth()->user();
+        return view('admin.adm_profil', compact('user'));
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'nip' => 'required',
+        ]);
+
+        $user = Auth::user();
+        $user->name = $request->name;
+        $user->nip = $request->nip;
+
+        $user->save();
+
+        return redirect()->route('admin.profile')->with('success', 'Profil berhasil diperbarui.');
+    }
+
+
+>>>>>>> faf83a3e2b3b386a617f4f310c26abfc214770c3
 }

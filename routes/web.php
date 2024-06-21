@@ -21,10 +21,6 @@ Route::middleware(['auth'])->group(function () {
             return view('admin/adm_editinbox');
         });
 
-        Route::get('/agenda', function () {
-            return view('admin/agenda');
-        });
-
         Route::get('/daftarpengajuan', function () {
             return view('admin/adm_daftar_pengajuan');
         });
@@ -33,8 +29,11 @@ Route::middleware(['auth'])->group(function () {
             return view('admin/adm_status_pengajuan');
         });
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> faf83a3e2b3b386a617f4f310c26abfc214770c3
         Route::get('/admininbox', [ArsipController::class, 'inbox']) -> name ('arsip.inbox');
         Route::get('/tambahinbox', [ArsipController::class, 'tambahinbox']) ->name('arsip.tambahinbox');
         Route::post('/tambahinbox', [ArsipController::class, 'storeinbox']) ->name ('arsip.storeinbox');
@@ -51,6 +50,8 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/updateoutbox/{id}', [ArsipController::class, 'updateoutbox']) -> name ('arsip.updateoutbox');
         Route::delete('/hapusoutbox/{arsipkeluar}', [ArsipController::class, 'destroyoutbox'])->name('arsip.destroyoutbox');
 
+        Route::get('/agenda', [ArsipController::class, 'agenda']) -> name ('agenda');
+
         Route::get('/kelolauser', [UserController::class, 'index']) -> name('user.index');
         Route::get('/tambahuser', [UserController::class, 'create'])->name('user.create');
         Route::post('/tambahuser', [UserController::class, 'store'])->name('user.store');
@@ -58,31 +59,29 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/edituser/{id}', [UserController::class, 'edit'])->name('user.edit');
         Route::put('/updateuser/{id}', [UserController::class, 'update'])->name('user.update');
 
+<<<<<<< HEAD
 
         Route::get('/adminprofil', [adminController::class, 'Profile'])->name('admin.profile');
         Route::post('/profile/update', [adminController::class, 'updateProfile'])->name('profile.update');
         Route::post('/adminpassword', [adminController::class, 'updatePassword'])->name('admin.updatePassword');
+=======
+        Route::get('/adminprofile', [AdminController::class, 'profile'])->name('admin.profile');
+        Route::put('/admin/editprofile', [AdminController::class, 'updateProfile'])->name('admin.profileupdate');
+
+>>>>>>> faf83a3e2b3b386a617f4f310c26abfc214770c3
     });
 
 
     Route::middleware(['role:head'])->group(function () {
         Route::get('/head', [headController::class, 'index'])->name('headoffice.dashboard');
 
-        Route::get('/headinbox', function () {
-            return view('head/head_inbox');
-        });
+        Route::get('/headinbox', [ArsipController::class, 'headinbox']) -> name ('head.inbox');
+        Route::get('/headinbox/{id}', [ArsipController::class, 'headdetailinbox']) -> name ('head.detailinbox');
+        Route::get('/headoutbox', [ArsipController::class, 'headoutbox']) -> name ('head.outbox');
+        Route::get('/headoutbox/{id}', [ArsipController::class, 'headdetailoutbox']) -> name ('head.detailoutbox');
 
-        Route::get('/headoutbox', function () {
-            return view('head/head_outbox');
-        });
-
-        Route::get('/headdetail', function () {
-            return view('head/head_detail');
-        });
-
-        Route::get('/headagenda', function () {
-            return view('head/head_agenda');
-        });
+        
+        Route::get('/headagenda', [ArsipController::class, 'headagenda']) -> name ('head.agenda');
 
         Route::get('/headdaftarpengajuan', function () {
             return view('head/head_daftar_pengajuan');
@@ -92,6 +91,7 @@ Route::middleware(['auth'])->group(function () {
             return view('head/head_tindaklanjut_pengajuan');
         });
 
+<<<<<<< HEAD
         Route::get('/headprofil', function () {
             return view('head/head_profil');
         });
@@ -99,15 +99,20 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/headprofil', [headController::class, 'Profile'])->name('head.profile');
         Route::post('/profile/update', [headController::class, 'updateProfile'])->name('profile.update');
         Route::post('/headpassword', [headController::class, 'updatePassword'])->name('head.updatePassword');
+=======
+        
+        Route::get('/headprofile', [HeadController::class, 'profile'])->name('head.profile');
+        Route::put('/head/editprofile', [HeadController::class, 'updateProfile'])->name('head.profileupdate');
+
+>>>>>>> faf83a3e2b3b386a617f4f310c26abfc214770c3
     });
 
 
     Route::middleware(['role:staff'])->group(function () {
         Route::get('/staff', [staffController::class, 'index'])->name('staff.dashboard');
 
-        Route::get('/staffagenda', function () {
-            return view('staff/staff_agenda');
-        });
+
+        Route::get('/staffagenda', [ArsipController::class, 'staffagenda']) -> name ('staff.agenda');
 
         Route::get('/stafpengajuan', function () {
             return view('staff/staff_pengajuan');
@@ -117,10 +122,13 @@ Route::middleware(['auth'])->group(function () {
             return view('staff/staff_create');
         });
 
+<<<<<<< HEAD
         Route::get('/staffprofile', function () {
             return view('staff/staff_profil');
         });
 
+=======
+>>>>>>> faf83a3e2b3b386a617f4f310c26abfc214770c3
         Route::get('/staffprofile', [StaffController::class, 'profile'])->name('staff.profile');
         Route::post('/staff/update', [StaffController::class, 'updateProfile'])->name('staff.update');
         Route::post('/staffpassword', [StaffController::class, 'updatePassword'])->name('staff.updatePassword');

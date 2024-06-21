@@ -8,6 +8,7 @@
 @endsection
 
 @section('content')
+<<<<<<< HEAD
     @if (session('status'))
         <div class="alert alert-success">
             {{ session('status') }}
@@ -22,6 +23,24 @@
                 @endforeach
             </ul>
         </div>
+=======
+
+    @if (session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'Berhasil!',
+                    text: "{{ session('success') }}",
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = "{{ route('headoffice.dashboard') }}";
+                    }
+                });
+            });
+        </script>
+>>>>>>> faf83a3e2b3b386a617f4f310c26abfc214770c3
     @endif
 
     <ul class="nav nav-tabs">
@@ -37,6 +56,7 @@
         <div class="tab-pane active" id="profile">
             <!-- Konten untuk Profil -->
             <h3>Informasi Profil</h3>
+<<<<<<< HEAD
             <form method="POST" action="#">
                 @csrf
                 <div class="form-group">
@@ -50,6 +70,22 @@
                 <div class="form-group">
                     <label for="position">Jabatan</label>
                     <input type="text" class="form-control" id="position" name="position" value="{{ Auth::user()->position }}" required>
+=======
+            <form method="POST" action="{{ route('head.profileupdate', $user->id) }}" enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+                <div class="form-group">
+                    <label for="name">Nama</label>
+                    <input type="text" class="form-control" id="name" name="name" value="{{ $user->name }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="nip">NIP</label>
+                    <input type="text" class="form-control" id="nip" name="nip" value="{{ $user->nip }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="position">Jabatan</label>
+                    <input type="text" class="form-control" id="position" name="position" value="{{ $user->jabatan }}" readonly>
+>>>>>>> faf83a3e2b3b386a617f4f310c26abfc214770c3
                 </div>
                 <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
             </form>

@@ -13,28 +13,28 @@
         <div class="card-header">
             <div class="form-group" style="margin-right: 150px;">
                 <label>Dari Tanggal</label>
-                <input type="date" class="form-control">
+                <input type="date" class="form-control" id="dari_tanggal">
             </div>
             <div class="form-group" style="margin-right: 150px;">
                 <label>Sampai Tanggal</label>
-                <input type="date" class="form-control">
+                <input type="date" class="form-control" id="sampai_tanggal">
             </div>
-            <div class="form-group" style="margin-right: 275px;">
+            <div class="form-group" style="margin-right: 250px;">
                 <label>Jenis Surat</label>
-                <select class="form-control">
-                  <option>Surat Masuk</option>
-                  <option>Surat Keluar</option>
-                  <option>Option 3</option>
+                <select class="form-control" id="jenis_surat">
+                  <option value="">Semua Surat</option>
+                  <option value="masuk">Surat Masuk</option>
+                  <option value="keluar">Surat Keluar</option>
                 </select>
             </div>
           <div class="card-header-action">
-            <a href="#" class="btn btn-warning">Saring</a>
-            <a href="#" class="btn btn-info">Cetak</a>
+            <a href="#" class="btn btn-warning" id="btnFilter">Saring</a>
+            <a href="#" class="btn btn-info" id="btnCetak">Cetak</a>
           </div>
         </div>
         <div class="card-body p-0">
             <div class="table-responsive">
-                <table class="table table-striped">
+                <table class="table table-striped" id="agendaTable">
                   <thead>
                     <tr>
                       <th scope="col">Nomor Agenda</th>
@@ -45,27 +45,19 @@
                     </tr>
                   </thead>
                   <tbody>
+                    @foreach($dataSurat as $surat)
                     <tr>
-                      <td>432</td>
-                      <td>2024/DISKOMINFO-KP/032</td>
-                      <td>Dinas Komunikasi & Informasi</td>
-                      <td>22 Maret 2024</td>
-                      <td><div class="badge badge-primary">Permintaan Data</div></td>
+                        <td class="medium-text">{{ $surat->nomor_agenda }}</td>
+                        <td class="medium-text">{{ $surat->nomor_surat }}</td>
+                        <td class="medium-text">{{ $surat->instansi }}</td>
+                        <td class="medium-text">{{ $surat->tanggal_agenda }}</td>
+                        <td class="medium-text jenis-surat">
+                            <div class="badge badge-{{ Arr::random(['primary', 'secondary', 'success', 'danger', 'warning', 'info', 'light', 'dark']) }}">
+                                {{ $surat->ringkasan }}
+                            </div>
+                        </td>
                     </tr>
-                    <tr>
-                        <td>432</td>
-                        <td>2024/DISKOMINFO-KP/032</td>
-                        <td>Dinas Komunikasi & Informasi</td>
-                        <td>22 Maret 2024</td>
-                        <td><div class="badge badge-success">Undangan Rapat</div></td>
-                    </tr>
-                    <tr>
-                        <td>432</td>
-                        <td>2024/DISKOMINFO-KP/032</td>
-                        <td>Dinas Komunikasi & Informasi</td>
-                        <td>22 Maret 2024</td>
-                        <td><div class="badge badge-danger">Surat Cuti</div></td>
-                    </tr>
+                    @endforeach
                   </tbody>
                 </table>
             </div>
@@ -73,3 +65,75 @@
     </div>
 </div>
 @endsection
+
+<style>
+  .medium-text {
+      font-size: 0.875rem;
+  }
+</style>
+
+<!-- Muat jQuery dan jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.3.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.13/jspdf.plugin.autotable.min.js"></script>
+
+@section('scripts')
+<script>
+    $(document).ready(function() {
+        // Aksi saat tombol Saring diklik
+        $('#btnFilter').click(function(e) {
+            e.preventDefault(); // Mencegah pengiriman form secara default
+
+            // Ambil nilai dari input tanggal dan jenis surat
+            var dariTanggal = $('#dari_tanggal').val();
+            var sampaiTanggal = $('#sampai_tanggal').val();
+            var jenisSurat = $('#jenis_surat').val();
+
+            // Mengirim permintaan AJAX ke endpoint agenda dengan data yang diperlukan
+            $.ajax({
+                url: "{{ route('agenda') }}",
+                type: "GET",
+                data: {
+                    dari_tanggal: dariTanggal,
+                    sampai_tanggal: sampaiTanggal,
+                    jenis_surat: jenisSurat
+                },
+                success: function(response) {
+                    // Mengganti konten tabel dengan hasil penyaringan yang baru
+                    $('#agendaTable tbody').html(response);
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                }
+            });
+        });
+
+        $('#btnCetak').click(function(e) {
+            e.preventDefault(); // Mencegah pengiriman form secara default
+
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            // Tambahkan judul
+            doc.setFontSize(16);
+            doc.text('Agenda BPS Kota Padang', 105, 22, { align: 'center' });
+
+            // Ambil konten tabel
+            doc.autoTable({
+                html: '#agendaTable',
+                startY: 30,
+                theme: 'grid',
+                headStyles: {
+                    fillColor: [22, 160, 133]
+                },
+                styles: {
+                    minCellHeight: 10,
+                    halign: 'center'
+                }
+            });
+
+            // Simpan PDF
+            doc.save('agenda.pdf');
+        });
+    });
+</script>
