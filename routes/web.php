@@ -21,10 +21,6 @@ Route::middleware(['auth'])->group(function () {
             return view('admin/adm_editinbox');
         });
 
-        Route::get('/agenda', function () {
-            return view('admin/agenda');
-        });
-
         Route::get('/daftarpengajuan', function () {
             return view('admin/adm_daftar_pengajuan');
         });
@@ -48,6 +44,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/editoutbox/{id}', [ArsipController::class, 'editoutbox']) -> name ('arsip.editoutbox');
         Route::put('/updateoutbox/{id}', [ArsipController::class, 'updateoutbox']) -> name ('arsip.updateoutbox');
         Route::delete('/hapusoutbox/{arsipkeluar}', [ArsipController::class, 'destroyoutbox'])->name('arsip.destroyoutbox');
+
+        Route::get('agenda', [ArsipController::class, 'agenda']) -> name ('agenda');
 
         Route::get('/kelolauser', [UserController::class, 'index']) -> name('user.index');
         Route::get('/tambahuser', [UserController::class, 'create'])->name('user.create');
@@ -77,9 +75,8 @@ Route::middleware(['auth'])->group(function () {
             return view('head/head_detail');
         });
 
-        Route::get('/headagenda', function () {
-            return view('head/head_agenda');
-        });
+
+        Route::get('/headagenda', [ArsipController::class, 'headagenda']) -> name ('head.agenda');
 
         Route::get('/headdaftarpengajuan', function () {
             return view('head/head_daftar_pengajuan');
@@ -98,9 +95,8 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['role:staff'])->group(function () {
         Route::get('/staff', [staffController::class, 'index'])->name('staff.dashboard');
 
-        Route::get('/staffagenda', function () {
-            return view('staff/staff_agenda');
-        });
+
+        Route::get('/staffagenda', [ArsipController::class, 'staffagenda']) -> name ('staff.agenda');
 
         Route::get('/stafpengajuan', function () {
             return view('staff/staff_pengajuan');
