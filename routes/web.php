@@ -29,11 +29,6 @@ Route::middleware(['auth'])->group(function () {
             return view('admin/adm_status_pengajuan');
         });
 
-<<<<<<< HEAD
-
-
-=======
->>>>>>> faf83a3e2b3b386a617f4f310c26abfc214770c3
         Route::get('/admininbox', [ArsipController::class, 'inbox']) -> name ('arsip.inbox');
         Route::get('/tambahinbox', [ArsipController::class, 'tambahinbox']) ->name('arsip.tambahinbox');
         Route::post('/tambahinbox', [ArsipController::class, 'storeinbox']) ->name ('arsip.storeinbox');
@@ -59,16 +54,14 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/edituser/{id}', [UserController::class, 'edit'])->name('user.edit');
         Route::put('/updateuser/{id}', [UserController::class, 'update'])->name('user.update');
 
-<<<<<<< HEAD
+
 
         Route::get('/adminprofil', [adminController::class, 'Profile'])->name('admin.profile');
         Route::post('/profile/update', [adminController::class, 'updateProfile'])->name('profile.update');
         Route::post('/adminpassword', [adminController::class, 'updatePassword'])->name('admin.updatePassword');
-=======
         Route::get('/adminprofile', [AdminController::class, 'profile'])->name('admin.profile');
         Route::put('/admin/editprofile', [AdminController::class, 'updateProfile'])->name('admin.profileupdate');
 
->>>>>>> faf83a3e2b3b386a617f4f310c26abfc214770c3
     });
 
 
@@ -80,7 +73,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/headoutbox', [ArsipController::class, 'headoutbox']) -> name ('head.outbox');
         Route::get('/headoutbox/{id}', [ArsipController::class, 'headdetailoutbox']) -> name ('head.detailoutbox');
 
-        
+
         Route::get('/headagenda', [ArsipController::class, 'headagenda']) -> name ('head.agenda');
 
         Route::get('/headdaftarpengajuan', function () {
@@ -91,7 +84,6 @@ Route::middleware(['auth'])->group(function () {
             return view('head/head_tindaklanjut_pengajuan');
         });
 
-<<<<<<< HEAD
         Route::get('/headprofil', function () {
             return view('head/head_profil');
         });
@@ -99,12 +91,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/headprofil', [headController::class, 'Profile'])->name('head.profile');
         Route::post('/profile/update', [headController::class, 'updateProfile'])->name('profile.update');
         Route::post('/headpassword', [headController::class, 'updatePassword'])->name('head.updatePassword');
-=======
-        
+
+
         Route::get('/headprofile', [HeadController::class, 'profile'])->name('head.profile');
         Route::put('/head/editprofile', [HeadController::class, 'updateProfile'])->name('head.profileupdate');
 
->>>>>>> faf83a3e2b3b386a617f4f310c26abfc214770c3
     });
 
 
@@ -122,13 +113,10 @@ Route::middleware(['auth'])->group(function () {
             return view('staff/staff_create');
         });
 
-<<<<<<< HEAD
         Route::get('/staffprofile', function () {
             return view('staff/staff_profil');
         });
 
-=======
->>>>>>> faf83a3e2b3b386a617f4f310c26abfc214770c3
         Route::get('/staffprofile', [StaffController::class, 'profile'])->name('staff.profile');
         Route::post('/staff/update', [StaffController::class, 'updateProfile'])->name('staff.update');
         Route::post('/staffpassword', [StaffController::class, 'updatePassword'])->name('staff.updatePassword');

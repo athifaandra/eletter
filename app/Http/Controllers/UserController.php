@@ -57,10 +57,4 @@ class UserController extends Controller
         return redirect()->route('user.index')->with('success', 'User berhasil dihapus.');
     }
 
-<<<<<<< HEAD
-   
-=======
-
-
->>>>>>> faf83a3e2b3b386a617f4f310c26abfc214770c3
 }
