@@ -8,22 +8,32 @@
 @endsection
 
 @section('content')
-<<<<<<< HEAD
     @if (session('status'))
-        <div class="alert alert-success">
-            {{ session('status') }}
-        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'Berhasil!',
+                    text: "{{ session('status') }}",
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+            });
+        </script>
     @endif
 
     @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-=======
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'Error!',
+                    html: '{!! implode('<br>', $errors->all()) !!}',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            });
+        </script>
+    @endif
+
     @if (session('success'))
         <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -39,7 +49,6 @@
                 });
             });
         </script>
->>>>>>> faf83a3e2b3b386a617f4f310c26abfc214770c3
     @endif
 
     <ul class="nav nav-tabs">

@@ -91,8 +91,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/headprofil', [headController::class, 'Profile'])->name('head.profile');
         Route::post('/profile/update', [headController::class, 'updateProfile'])->name('profile.update');
         Route::post('/headpassword', [headController::class, 'updatePassword'])->name('head.updatePassword');
-
-
         Route::get('/headprofile', [HeadController::class, 'profile'])->name('head.profile');
         Route::put('/head/editprofile', [HeadController::class, 'updateProfile'])->name('head.profileupdate');
 
@@ -113,13 +111,9 @@ Route::middleware(['auth'])->group(function () {
             return view('staff/staff_create');
         });
 
-        Route::get('/staffprofile', function () {
-            return view('staff/staff_profil');
-        });
-
-        Route::get('/staffprofile', [StaffController::class, 'profile'])->name('staff.profile');
-        Route::post('/staff/update', [StaffController::class, 'updateProfile'])->name('staff.update');
-        Route::post('/staffpassword', [StaffController::class, 'updatePassword'])->name('staff.updatePassword');
+        Route::get('/staffprofile', [staffController::class, 'profile'])->name('staff.profile');
+        Route::put('/staff/update', [staffController::class, 'updateProfile'])->name('staff.updateProfile');
+        Route::post('/staffpassword', [staffController::class, 'updatePassword'])->name('staff.updatePassword');
     });
 
 

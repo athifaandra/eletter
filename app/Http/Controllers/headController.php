@@ -14,7 +14,7 @@ class headController extends Controller
     public function index()
     {
         if (Gate::allows('isHead')) {
-            
+
             $inboxCount = ArsipMasuk::count();
             $outboxCount = ArsipKeluar::count();
 
@@ -29,26 +29,26 @@ class headController extends Controller
         }
     }
 
-    public function profile(){
-        return view('head.head_profil');
+    public function profile()
+    {
+        $user = auth()->user();
+        return view('head.head_profil', compact('user'));
     }
-
 
     public function updateProfile(Request $request)
     {
         $request->validate([
             'name' => 'required',
             'nip' => 'required',
-            'position' => 'required',
         ]);
 
         $user = Auth::user();
         $user->name = $request->name;
         $user->nip = $request->nip;
-        $user->position = $request->position;
+
         $user->save();
 
-        return back()->with('status', 'Profil berhasil diubah.');
+        return redirect()->route('headoffice.dashboard')->with('success', 'Profil berhasil diperbarui.');
     }
 
     public function updatePassword(Request $request)
@@ -67,11 +67,12 @@ class headController extends Controller
 
         try {
             $user->save();
-            return redirect()->route('head.profile')->with('status', 'Password berhasil diubah.');
+            return redirect()->route('head.profile')->with('success', 'Password berhasil diubah.');
         } catch (\Exception $e) {
             return back()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan password baru.']);
         }
     }
+
 
 
 }

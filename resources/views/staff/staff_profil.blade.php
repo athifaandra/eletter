@@ -8,7 +8,32 @@
 @endsection
 
 @section('content')
-    <!-- Tambahkan skrip untuk menampilkan popup jika ada pesan sukses -->
+    @if (session('status'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'Berhasil!',
+                    text: "{{ session('status') }}",
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+            });
+        </script>
+    @endif
+
+    @if ($errors->any())
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                Swal.fire({
+                    title: 'Error!',
+                    html: '{!! implode('<br>', $errors->all()) !!}',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            });
+        </script>
+    @endif
+
     @if (session('success'))
         <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -19,7 +44,7 @@
                     confirmButtonText: 'OK'
                 }).then((result) => {
                     if (result.isConfirmed) {
-                        window.location.href = "{{ route('staff.dashboard') }}";
+                        window.location.href = "{{ route('staff.profile') }}";
                     }
                 });
             });
@@ -39,7 +64,7 @@
         <div class="tab-pane active" id="profile">
             <!-- Konten untuk Profil -->
             <h3>Informasi Profil</h3>
-            <form method="POST" action="{{ route('staff.update', $user->id) }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('staff.updateProfile') }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="form-group">
@@ -72,8 +97,9 @@
         </div>
         <div class="tab-pane" id="password">
             <!-- Konten untuk Password -->
+            <h3>Ganti Password</h3>
             <form method="POST" action="{{ route('staff.updatePassword') }}">
-            @csrf
+                @csrf
                 <div class="form-group">
                     <label for="current_password">Password Saat Ini</label>
                     <input type="password" class="form-control" id="current_password" name="current_password" required>

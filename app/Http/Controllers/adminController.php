@@ -15,46 +15,41 @@ class adminController extends Controller
     public function index()
     {
         if (Gate::allows('isAdmin')) {
-
             $inboxCount = ArsipMasuk::count();
             $outboxCount = ArsipKeluar::count();
             $user = User::count();
 
-            return view('admin/dashboard', [
+            return view('admin.dashboard', [
                 'inboxCount' => $inboxCount,
                 'outboxCount' => $outboxCount,
                 'user' => $user
             ]);
-
         } else {
             abort(403, 'Unauthorized action.');
         }
-
-   }
-
-
-
-public function updatePassword(Request $request)
-{
-    $request->validate([
-        'current_password' => 'required',
-        'new_password' => 'required|min:8|confirmed',
-    ]);
-
-    if (!Hash::check($request->current_password, Auth::user()->password)) {
-        return back()->withErrors(['current_password' => 'Password saat ini tidak sesuai.']);
     }
 
-    $user = Auth::user();
-    $user->password = Hash::make($request->new_password);
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => 'required',
+            'new_password' => 'required|min:8|confirmed',
+        ]);
 
-    try {
-        $user->save();
-        return redirect()->route('admin.profile')->with('status', 'Password berhasil diubah.');
-    } catch (\Exception $e) {
-        return back()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan password baru.']);
+        if (!Hash::check($request->current_password, Auth::user()->password)) {
+            return back()->withErrors(['current_password' => 'Password saat ini tidak sesuai.']);
+        }
+
+        $user = Auth::user();
+        $user->password = Hash::make($request->new_password);
+
+        try {
+            $user->save();
+            return redirect()->route('admin.profile')->with('success', 'Password berhasil diubah.');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'Terjadi kesalahan saat menyimpan password baru.']);
+        }
     }
-}
 
     public function profile()
     {
@@ -75,8 +70,6 @@ public function updatePassword(Request $request)
 
         $user->save();
 
-        return redirect()->route('admin.profile')->with('success', 'Profil berhasil diperbarui.');
+        return redirect()->route('admin.dashboard')->with('success', 'Profil berhasil diperbarui.');
     }
-
-
 }
