@@ -7,7 +7,7 @@ use App\Http\Controllers\staffController;
 use App\Http\Controllers\headController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ArsipController;
-
+use App\Http\Controllers\PengajuanController;
 
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
@@ -105,13 +105,8 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/staffagenda', [ArsipController::class, 'staffagenda']) -> name ('staff.agenda');
 
-        Route::get('/stafpengajuan', function () {
-            return view('staff/staff_pengajuan');
-        });
-
-        Route::get('/stafcreate', function () {
-            return view('staff/staff_create');
-        });
+        Route::get('/stafpengajuan', [PengajuanController::class, 'index']) -> name ('staff.pengajuan');
+        Route::get('/stafcreate', [PengajuanController::class, 'create']) -> name ('staff.create');
 
         Route::get('/staffprofile', function () {
             return view('staff/staff_profil');
