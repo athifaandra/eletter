@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Models\ArsipKeluar;
+use App\Models\ArsipMasuk;
 use App\Models\User;
 
 class adminController extends Controller
@@ -14,7 +16,15 @@ class adminController extends Controller
     {
         if (Gate::allows('isAdmin')) {
 
-            return view('admin/dashboard');
+            $inboxCount = ArsipMasuk::count();
+            $outboxCount = ArsipKeluar::count();
+            $user = User::count();
+
+            return view('admin/dashboard', [
+                'inboxCount' => $inboxCount,
+                'outboxCount' => $outboxCount,
+                'user' => $user
+            ]);
 
         } else {
             abort(403, 'Unauthorized action.');

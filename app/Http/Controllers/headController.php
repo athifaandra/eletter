@@ -14,8 +14,7 @@ class headController extends Controller
     public function index()
     {
         if (Gate::allows('isHead')) {
-
-            return view('head/head_dashboard');
+            
             $inboxCount = ArsipMasuk::count();
             $outboxCount = ArsipKeluar::count();
 

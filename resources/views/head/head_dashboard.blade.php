@@ -8,7 +8,7 @@
 
 <div class="section-body">
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-8">
             <div class="card card-hero">
                 <div class="card-header">
                 <div class="card-icon">
