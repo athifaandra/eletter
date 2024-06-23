@@ -1,48 +1,69 @@
 @extends('layouts.head')
 
 @section('page-title')
-  <h1>Tindak Lanjuti Pengajuan</h1>
+  <h1>Detail Pengajuan</h1>
+  <div class="section-header-breadcrumb">
+    <div class="breadcrumb-item active"><a href="#">Arsip Surat</a></div>
+    <div class="breadcrumb-item active"><a href="#">Surat Masuk</a></div>
+    <div class="breadcrumb-item">Detail Pengajuan</div>
+  </div>
 @endsection
 
 @section('content')
 <div class="section-body">
     <div class="card card-primary">
         <div class="list-group">
-            <a href="/detailsurat" class="list-group-item list-group-item-action flex-column align-items-start">
+            <a href="" class="list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">2024/DISKOMINFO-KP/32</h5>
-                    <small>Senin/ 5 Februari 2024</small>
+                    <small>{{ \Carbon\Carbon::parse('2024-02-05')->isoFormat('dddd, D MMMM YYYY') }}</small>
                 </div>
-                <p class="mb-1">Dinas Komunikasi & Informatika Padang | Nomor Agenda: 123 | Undangan Rapat</p>
-                <h6>Undangan menghadiri rapat untuk Bidang IPDS dalam pembahasan publikasi Padang Dalam Angka</h6>
-                <div style="text-align: right; color: green">
-                    <h6>Accepted</h6>
-                </div>
+                <p class="mb-1">Athifa Rifda | Nomor Surat: 123 | Surat Pengajuan Cuti</p>
             </a>
         </div>
-    </div>
-
-    <div class="container mt-5">
-        @if (session('success'))
-            <div class="alert alert-success">
-                {{ session('success') }}
+        <div class="card-header">
+            Melalui surat ini, saya bermaksud mengajukan permohonan cuti selama tiga hari dikarenakan ada acara keluarga
+        </div>
+        <div class="card-body">
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Nomor Surat</label>
+                <div class="col-sm-9">
+                    <label class="col-form-label">123</label>
+                </div>
             </div>
-        @endif
-            <div class="form-row align-items-center">
-                <div class="form-group col-md-4">
-                    <label for="file">Choose File</label>
-                    <input type="file" class="form-control" id="file" name="file" required>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Nama</label>
+                <div class="col-sm-9">
+                    <label class="col-form-label">Athifa Rifda</label>
                 </div>
-                <div class="form-group col-md-4">
-                    <label for="sifat_surat">Sifat Surat</label>
-                    <select class="form-control" id="sifat_surat" name="sifat_surat" required>
-                        <option value="">Pilih Sifat Surat</option>
-                        <option value="priority">Priority</option>
-                        <option value="not priority">Not Priority</option>
-                    </select>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">NIP</label>
+                <div class="col-sm-9">
+                    <label class="col-form-label">200210010230624</label>
                 </div>
-                <div class="form-group col-md-4">
-                    <label for="status_surat">Status Surat</label>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Jabatan</label>
+                <div class="col-sm-9">
+                    <label class="col-form-label">Staf Pranata Komputer Ahli Muda</label>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-3 col-form-label">Lampiran</label>
+                <div class="col-sm-9">
+                    @if(true) {{-- Replace with actual condition for checking if there is an attachment --}}
+                        <a href="#" class="col-form-label" target="_blank">
+                            <i class="fas fa-file"></i> example_file.pdf {{-- Replace with actual file name --}}
+                        </a>
+                    @else
+                        <label class="col-form-label">Tidak ada lampiran</label>
+                    @endif
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="status_surat" class="col-sm-3 col-form-label">Status Surat</label>
+                <div class="col-sm-4">
                     <select class="form-control" id="status_surat" name="status_surat" required>
                         <option value="">Pilih Status Surat</option>
                         <option value="accepted">Accepted</option>
@@ -51,12 +72,12 @@
                     </select>
                 </div>
             </div>
-            <div class="form-group">
-                <label for="catatan">Catatan</label>
-                <textarea class="form-control" id="catatan" name="catatan"></textarea>
+            <div class="form-group row">
+                <div class="col-sm-9 offset-sm-3">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+        </div>
     </div>
 </div>
 @endsection

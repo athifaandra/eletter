@@ -117,7 +117,7 @@
 
   <!-- JS Libraies -->
 
-  <!-- Page Specific JS File -->
+  <!-- Page Speific JS File -->
 
   <!-- Template JS File -->
   <script src="assets/js/scripts.js"></script>

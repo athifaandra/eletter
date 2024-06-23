@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -37,6 +38,7 @@ class UserController extends Controller
         ], [
             'name.required' => 'Field Nama harus diisi.',
             'nip.required' => 'Field NIP harus diisi.',
+            'nip.unique' => 'NIP sudah terdaftar.',
             'jabatan.required' => 'Field Jabatan harus diisi.',
         ]);
 
@@ -56,5 +58,4 @@ class UserController extends Controller
         $user->delete();
         return redirect()->route('user.index')->with('success', 'User berhasil dihapus.');
     }
-
 }
