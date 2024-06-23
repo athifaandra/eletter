@@ -15,68 +15,68 @@
         <div class="list-group">
             <a href="" class="list-group-item list-group-item-action flex-column align-items-start">
                 <div class="d-flex w-100 justify-content-between">
-                    <h5 class="mb-1">2024/DISKOMINFO-KP/32</h5>
-                    <small>{{ \Carbon\Carbon::parse('2024-02-05')->isoFormat('dddd, D MMMM YYYY') }}</small>
+                    <h5 class="mb-1">{{ $pengajuan->nomor_surat }}</h5>
+                    <small>{{ \Carbon\Carbon::parse($pengajuan->tanggal_surat)->isoFormat('dddd, D MMMM YYYY') }}</small>
                 </div>
-                <p class="mb-1">Athifa Rifda | Nomor Surat: 123 | Surat Pengajuan Cuti</p>
             </a>
         </div>
-        <div class="card-header">
-            Melalui surat ini, saya bermaksud mengajukan permohonan cuti selama tiga hari dikarenakan ada acara keluarga
-        </div>
         <div class="card-body">
-            <div class="form-group row">
-                <label class="col-sm-3 col-form-label">Nomor Surat</label>
-                <div class="col-sm-9">
-                    <label class="col-form-label">123</label>
+            <form action="{{ route('pengajuan.update', $pengajuan->id) }}" method="POST">
+                @csrf
+                @method('PUT')
+
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Perihal</label>
+                    <div class="col-sm-9">
+                        <label class="col-form-label">{{ $pengajuan->perihal }}</label>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-sm-3 col-form-label">Nama</label>
-                <div class="col-sm-9">
-                    <label class="col-form-label">Athifa Rifda</label>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Nama</label>
+                    <div class="col-sm-9">
+                        <label class="col-form-label">{{ $pengajuan->user->name }}</label>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-sm-3 col-form-label">NIP</label>
-                <div class="col-sm-9">
-                    <label class="col-form-label">200210010230624</label>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">NIP</label>
+                    <div class="col-sm-9">
+                        <label class="col-form-label">{{ $pengajuan->user->nip }}</label>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-sm-3 col-form-label">Jabatan</label>
-                <div class="col-sm-9">
-                    <label class="col-form-label">Staf Pranata Komputer Ahli Muda</label>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Jabatan</label>
+                    <div class="col-sm-9">
+                        <label class="col-form-label">{{ $pengajuan->user->jabatan }}</label>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-sm-3 col-form-label">Lampiran</label>
-                <div class="col-sm-9">
-                    @if(true) {{-- Replace with actual condition for checking if there is an attachment --}}
-                        <a href="#" class="col-form-label" target="_blank">
-                            <i class="fas fa-file"></i> example_file.pdf {{-- Replace with actual file name --}}
-                        </a>
-                    @else
-                        <label class="col-form-label">Tidak ada lampiran</label>
-                    @endif
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Tanggal Mulai</label>
+                    <div class="col-sm-9">
+                        <label class="col-form-label">{{ \Carbon\Carbon::parse($pengajuan->tanggal_mulai)->format('d-m-Y') }}</label>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row">
-                <label for="status_surat" class="col-sm-3 col-form-label">Status Surat</label>
-                <div class="col-sm-4">
-                    <select class="form-control" id="status_surat" name="status_surat" required>
-                        <option value="">Pilih Status Surat</option>
-                        <option value="accepted">Accepted</option>
-                        <option value="rejected">Rejected</option>
-                        <option value="processed">Processed</option>
-                    </select>
+                <div class="form-group row">
+                    <label class="col-sm-3 col-form-label">Tanggal Selesai</label>
+                    <div class="col-sm-9">
+                        <label class="col-form-label">{{ \Carbon\Carbon::parse($pengajuan->tanggal_selesai)->format('d-m-Y') }}</label>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-sm-9 offset-sm-3">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                <div class="form-group row">
+                    <label for="status" class="col-sm-3 col-form-label">Status Surat</label>
+                    <div class="col-sm-4">
+                        <select class="form-control" id="status" name="status" required>
+                            <option value="Diterima" {{ $pengajuan->status == 'Diterima' ? 'selected' : '' }}>Diterima</option>
+                            <option value="Ditolak" {{ $pengajuan->status == 'Ditolak' ? 'selected' : '' }}>Ditolak</option>
+                            <option value="Proses" {{ $pengajuan->status == 'Proses' ? 'selected' : '' }}>Proses</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
+                <div class="form-group row">
+                    <div class="col-sm-9 offset-sm-3">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>

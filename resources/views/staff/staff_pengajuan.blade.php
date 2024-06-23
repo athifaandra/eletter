@@ -21,6 +21,7 @@
                         <thead>
                             <tr>
                                 <th style="width: 10%;">Nomor</th>
+                                <th style="width: 30%;">Tanggal Surat</th>
                                 <th style="width: 30%;">Jenis Pengajuan</th>
                                 <th style="width: 30%;">Status Pengajuan</th>
                                 <th style="width: 30%;">Aksi</th>
@@ -30,6 +31,7 @@
                             @foreach ($pengajuan as $pengajuan)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
+                                <td>{{ \Carbon\Carbon::parse($pengajuan->tanggal_surat)->format('d-m-Y') }}</td>
                                 <td>{{ $pengajuan->perihal }}</td>
                                 <td>{{ $pengajuan->status }}</td>
                                 <td>
