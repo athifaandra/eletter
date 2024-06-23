@@ -23,7 +23,7 @@
                                 <th style="width: 10%;">Nomor</th>
                                 <th style="width: 30%;">Jenis Pengajuan</th>
                                 <th style="width: 30%;">Status Pengajuan</th>
-                                <th style="width: 30%;">Cetak</th>
+                                <th style="width: 30%;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -33,21 +33,12 @@
                                 <td>{{ $pengajuan->perihal }}</td>
                                 <td>{{ $pengajuan->status }}</td>
                                 <td>
-<<<<<<< HEAD
-                                    <a href="#" class="btn btn-icon icon-left btn-info">
+                                    <a href="{{ route('cetak', ['id' => $pengajuan->id]) }}" class="btn btn-icon icon-left btn-info">
                                         <i class="fas fa-download"></i> Cetak
                                     </a>
                                 </td>
                             </tr>
-
-=======
-                                    <a href="{{ route('cetak', ['id' => $pengajuan->id]) }}" class="btn btn-icon icon-left btn-info">
-                                        <i class="fas fa-info-circle"></i> Cetak
-                                    </a>
-                                </td>
-                            </tr>
                             @endforeach
->>>>>>> 030c264b920f7b6d72be5876c400a0a56671fe91
                         </tbody>
                     </table>
                 </div>
