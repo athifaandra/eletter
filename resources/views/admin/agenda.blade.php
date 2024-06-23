@@ -11,26 +11,28 @@
 <div class="section-body">
     <div class="card">
         <div class="card-header">
-            <div class="form-group" style="margin-right: 150px;">
-                <label>Dari Tanggal</label>
-                <input type="date" class="form-control" id="dari_tanggal">
-            </div>
-            <div class="form-group" style="margin-right: 150px;">
-                <label>Sampai Tanggal</label>
-                <input type="date" class="form-control" id="sampai_tanggal">
-            </div>
-            <div class="form-group" style="margin-right: 250px;">
-                <label>Jenis Surat</label>
-                <select class="form-control" id="jenis_surat">
-                  <option value="">Semua Surat</option>
-                  <option value="masuk">Surat Masuk</option>
-                  <option value="keluar">Surat Keluar</option>
-                </select>
-            </div>
-          <div class="card-header-action">
-            <a href="#" class="btn btn-warning" id="btnFilter">Saring</a>
-            <a href="#" class="btn btn-info" id="btnCetak">Cetak</a>
-          </div>
+            <form id="filterForm" method="GET" action="{{ route('agenda') }}" style="display: flex; flex-wrap: wrap; align-items: center;">
+                <div class="form-group" style="margin-right: 170px;">
+                    <label>Dari Tanggal</label>
+                    <input type="date" class="form-control" name="dari_tanggal" value="{{ request('dari_tanggal') }}">
+                </div>
+                <div class="form-group" style="margin-right: 170px;">
+                    <label>Sampai Tanggal</label>
+                    <input type="date" class="form-control" name="sampai_tanggal" value="{{ request('sampai_tanggal') }}">
+                </div>
+                <div class="form-group" style="margin-right: 170px;">
+                    <label>Jenis Surat</label>
+                    <select class="form-control" style="margin-right: 20px;" name="jenis_surat">
+                        <option value="">Semua Surat</option>
+                        <option value="masuk" {{ request('jenis_surat') == 'masuk' ? 'selected' : '' }}>Surat Masuk</option>
+                        <option value="keluar" {{ request('jenis_surat') == 'keluar' ? 'selected' : '' }}>Surat Keluar</option>
+                    </select>
+                </div>
+                <div class="card-header-action" style="display: flex; align-items: center;">
+                    <button type="submit" class="btn btn-warning" style="margin-right: 10px;">Saring</button>
+                    <a href="#" class="btn btn-info" id="btnCetak">Cetak</a>
+                </div>
+            </form>
         </div>
         <div class="card-body p-0">
             <div class="table-responsive">
@@ -81,59 +83,72 @@
 <script>
     $(document).ready(function() {
         // Aksi saat tombol Saring diklik
-        $('#btnFilter').click(function(e) {
-            e.preventDefault(); // Mencegah pengiriman form secara default
+        // $('#btnFilter').click(function(e) {
+        //     e.preventDefault(); // Mencegah pengiriman form secara default
 
-            // Ambil nilai dari input tanggal dan jenis surat
-            var dariTanggal = $('#dari_tanggal').val();
-            var sampaiTanggal = $('#sampai_tanggal').val();
-            var jenisSurat = $('#jenis_surat').val();
+        //     // Ambil nilai dari input tanggal dan jenis surat
+        //     var dariTanggal = $('#dari_tanggal').val();
+        //     var sampaiTanggal = $('#sampai_tanggal').val();
+        //     var jenisSurat = $('#jenis_surat').val();
 
-            // Mengirim permintaan AJAX ke endpoint agenda dengan data yang diperlukan
-            $.ajax({
-                url: "{{ route('agenda') }}",
-                type: "GET",
-                data: {
-                    dari_tanggal: dariTanggal,
-                    sampai_tanggal: sampaiTanggal,
-                    jenis_surat: jenisSurat
-                },
-                success: function(response) {
-                    // Mengganti konten tabel dengan hasil penyaringan yang baru
-                    $('#agendaTable tbody').html(response);
-                },
-                error: function(xhr) {
-                    console.log(xhr.responseText);
-                }
-            });
-        });
+        //     // Mengirim permintaan AJAX ke endpoint agenda dengan data yang diperlukan
+        //     $.ajax({
+        //         url: "{{ route('agenda') }}",
+        //         type: "GET",
+        //         data: {
+        //             dari_tanggal: dariTanggal,
+        //             sampai_tanggal: sampaiTanggal,
+        //             jenis_surat: jenisSurat
+        //         },
+        //         success: function(response) {
+        //             // Mengganti konten tabel dengan hasil penyaringan yang baru
+        //             $('#agendaTable tbody').html(response);
+        //         },
+        //         error: function(xhr) {
+        //             console.log(xhr.responseText);
+        //         }
+        //     });
+        // });
 
         $('#btnCetak').click(function(e) {
-            e.preventDefault(); // Mencegah pengiriman form secara default
+        e.preventDefault(); // Mencegah pengiriman form secara default
 
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
 
-            // Tambahkan judul
-            doc.setFontSize(16);
-            doc.text('Agenda BPS Kota Padang', 105, 22, { align: 'center' });
+        // Menggunakan font Times New Roman
+        doc.setFont('times');
 
-            // Ambil konten tabel
-            doc.autoTable({
-                html: '#agendaTable',
-                startY: 30,
-                theme: 'grid',
-                headStyles: {
-                    fillColor: [22, 160, 133]
-                },
-                styles: {
-                    minCellHeight: 10,
-                    halign: 'center'
-                }
-            });
+        // Tambahkan judul
+        doc.setFontSize(16);
+        doc.text('Agenda BPS Kota Padang', 105, 22, { align: 'center' });
 
-            // Simpan PDF
-            doc.save('agenda.pdf');
+        // Tambahkan garis di bawah judul
+        doc.setLineWidth(1);
+        doc.line(70, 25, 140, 25);
+
+        doc.autoTable({
+            html: '#agendaTable',
+            startY: 30,
+            theme: 'grid',
+            headStyles: {
+                fillColor: [169, 169, 169],
+                textColor: [0, 0, 0]
+            },
+            styles: {
+                minCellHeight: 10,
+                halign: 'center',
+                cellPadding: 2,
+                lineColor: [0, 0, 0],
+                lineWidth: 0.1
+            },
+            tableLineColor: [0, 0, 0],
+            tableLineWidth: 0.1
         });
+
+        // Save the PDF
+        doc.save('Agenda_BPS_Kota_Padang.pdf');
+    });
+
     });
 </script>

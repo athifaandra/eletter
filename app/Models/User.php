@@ -23,4 +23,9 @@ class User extends Authenticatable
 
 
     protected $table = 'users';
+
+    public function pengajuan()
+    {
+        return $this->hasMany(Pengajuan::class, 'nip', 'nip');
+    }
 }

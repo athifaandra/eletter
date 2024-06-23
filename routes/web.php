@@ -45,7 +45,7 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/updateoutbox/{id}', [ArsipController::class, 'updateoutbox']) -> name ('arsip.updateoutbox');
         Route::delete('/hapusoutbox/{arsipkeluar}', [ArsipController::class, 'destroyoutbox'])->name('arsip.destroyoutbox');
 
-        Route::get('/agenda', [ArsipController::class, 'agenda']) -> name ('agenda');
+        Route::get('/agenda', [ArsipController::class, 'agenda'])->name('agenda');
 
         Route::get('/kelolauser', [UserController::class, 'index']) -> name('user.index');
         Route::get('/tambahuser', [UserController::class, 'create'])->name('user.create');
@@ -53,7 +53,6 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/hapususer/{user}', [UserController::class, 'destroy'])->name('user.destroy');
         Route::get('/edituser/{id}', [UserController::class, 'edit'])->name('user.edit');
         Route::put('/updateuser/{id}', [UserController::class, 'update'])->name('user.update');
-
 
 
         Route::get('/adminprofil', [adminController::class, 'Profile'])->name('admin.profile');
@@ -73,8 +72,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/headoutbox', [ArsipController::class, 'headoutbox']) -> name ('head.outbox');
         Route::get('/headoutbox/{id}', [ArsipController::class, 'headdetailoutbox']) -> name ('head.detailoutbox');
 
-
-        Route::get('/headagenda', [ArsipController::class, 'headagenda']) -> name ('head.agenda');
+        Route::get('/headagenda', [ArsipController::class, 'headagenda'])->name('head.agenda');
 
         Route::get('/headdaftarpengajuan', function () {
             return view('head/head_daftar_pengajuan');
@@ -105,6 +103,8 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/stafpengajuan', [PengajuanController::class, 'index']) -> name ('staff.pengajuan');
         Route::get('/stafcreate', [PengajuanController::class, 'create']) -> name ('staff.create');
+        Route::post('/stafpengajuan/store', [PengajuanController::class, 'store'])->name('pengajuan.store');
+        Route::get('/cetak-surat/{id}', [PengajuanController::class, 'cetak'])->name('cetak');
 
         Route::get('/staffprofile', [staffController::class, 'profile'])->name('staff.profile');
         Route::put('/staff/update', [staffController::class, 'updateProfile'])->name('staff.updateProfile');
@@ -116,10 +116,3 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-// Route::get('/staff', function () {
-//     return view('staff');
-// });
-
-// Route::get('/kepala', function () {
-//     return view('head');
-// });
