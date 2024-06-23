@@ -27,36 +27,18 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($pengajuan as $pengajuan)
                             <tr>
-                                <td>1</td>
-                                <td>Cuti Tahunan</td>
-                                <td>Disetujui</td>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $pengajuan->perihal }}</td>
+                                <td>{{ $pengajuan->status }}</td>
                                 <td>
-                                    <a href="#" class="btn btn-icon icon-left btn-info">
-                                        <i class="fas fa-info-circle"></i> Detail
+                                    <a href="{{ route('cetak', ['id' => $pengajuan->id]) }}" class="btn btn-icon icon-left btn-info">
+                                        <i class="fas fa-info-circle"></i> Cetak
                                     </a>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Pengajuan Dana</td>
-                                <td>Menunggu</td>
-                                <td>
-                                    <a href="#" class="btn btn-icon icon-left btn-info">
-                                        <i class="fas fa-info-circle"></i> Detail
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Cuti Sakit</td>
-                                <td>Ditolak</td>
-                                <td>
-                                    <a href="#" class="btn btn-icon icon-left btn-info">
-                                        <i class="fas fa-info-circle"></i> Detail
-                                    </a>
-                                </td>
-                            </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

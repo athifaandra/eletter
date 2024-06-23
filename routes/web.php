@@ -55,7 +55,6 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/updateuser/{id}', [UserController::class, 'update'])->name('user.update');
 
 
-
         Route::get('/adminprofil', [adminController::class, 'Profile'])->name('admin.profile');
         Route::post('/profile/update', [adminController::class, 'updateProfile'])->name('profile.update');
         Route::post('/adminpassword', [adminController::class, 'updatePassword'])->name('admin.updatePassword');
@@ -104,6 +103,8 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/stafpengajuan', [PengajuanController::class, 'index']) -> name ('staff.pengajuan');
         Route::get('/stafcreate', [PengajuanController::class, 'create']) -> name ('staff.create');
+        Route::post('/stafpengajuan/store', [PengajuanController::class, 'store'])->name('pengajuan.store');
+        Route::get('/cetak-surat/{id}', [PengajuanController::class, 'cetak'])->name('cetak');
 
         Route::get('/staffprofile', [staffController::class, 'profile'])->name('staff.profile');
         Route::put('/staff/update', [staffController::class, 'updateProfile'])->name('staff.updateProfile');
@@ -115,10 +116,3 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-// Route::get('/staff', function () {
-//     return view('staff');
-// });
-
-// Route::get('/kepala', function () {
-//     return view('head');
-// });
