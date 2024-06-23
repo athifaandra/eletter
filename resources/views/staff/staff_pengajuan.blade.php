@@ -16,41 +16,36 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-striped mb-0">
-                        <thead>
-                            <tr>
-                                <th style="width: 10%;">Nomor</th>
-                                <th style="width: 30%;">Jenis Pengajuan</th>
-                                <th style="width: 30%;">Status Pengajuan</th>
-                                <th style="width: 30%;">Cetak</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($pengajuan as $pengajuan)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $pengajuan->perihal }}</td>
-                                <td>{{ $pengajuan->status }}</td>
-                                <td>
-<<<<<<< HEAD
-                                    <a href="#" class="btn btn-icon icon-left btn-info">
-                                        <i class="fas fa-download"></i> Cetak
-                                    </a>
-                                </td>
-                            </tr>
-
-=======
-                                    <a href="{{ route('cetak', ['id' => $pengajuan->id]) }}" class="btn btn-icon icon-left btn-info">
-                                        <i class="fas fa-info-circle"></i> Cetak
-                                    </a>
-                                </td>
-                            </tr>
-                            @endforeach
->>>>>>> 030c264b920f7b6d72be5876c400a0a56671fe91
-                        </tbody>
-                    </table>
-                </div>
+                @if($pengajuan->isEmpty())
+                    <p>Tidak ada Pengajuan yang tersedia.</p>
+                @else
+                    <div class="table-responsive">
+                        <table class="table table-striped mb-0">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10%;">Nomor</th>
+                                    <th style="width: 30%;">Jenis Pengajuan</th>
+                                    <th style="width: 30%;">Status Pengajuan</th>
+                                    <th style="width: 30%;">Cetak</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($pengajuan as $item)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
+                                        <td>{{ $item->perihal }}</td>
+                                        <td>{{ $item->status }}</td>
+                                        <td>
+                                            <a href="{{ route('cetak', ['id' => $item->id]) }}" class="btn btn-icon icon-left btn-info">
+                                                <i class="fas fa-download"></i> Cetak
+                                            </a>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
