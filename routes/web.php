@@ -12,6 +12,9 @@ use App\Http\Controllers\PengajuanController;
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
 
+Route::get('/pengajuancuti', function () { return view('surat_cuti'); });
+Route::get('/printcuti', function () { return view('print.print_cuti'); });
+
 Route::middleware(['auth'])->group(function () {
 
     Route::middleware(['role:admin'])->group(function () {

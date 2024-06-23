@@ -23,7 +23,7 @@
                                 <th style="width: 10%;">Nomor</th>
                                 <th style="width: 30%;">Jenis Pengajuan</th>
                                 <th style="width: 30%;">Status Pengajuan</th>
-                                <th style="width: 30%;">Aksi</th>
+                                <th style="width: 30%;">Cetak</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -33,30 +33,11 @@
                                 <td>Disetujui</td>
                                 <td>
                                     <a href="#" class="btn btn-icon icon-left btn-info">
-                                        <i class="fas fa-info-circle"></i> Detail
+                                        <i class="fas fa-download"></i> Cetak
                                     </a>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Pengajuan Dana</td>
-                                <td>Menunggu</td>
-                                <td>
-                                    <a href="#" class="btn btn-icon icon-left btn-info">
-                                        <i class="fas fa-info-circle"></i> Detail
-                                    </a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Cuti Sakit</td>
-                                <td>Ditolak</td>
-                                <td>
-                                    <a href="#" class="btn btn-icon icon-left btn-info">
-                                        <i class="fas fa-info-circle"></i> Detail
-                                    </a>
-                                </td>
-                            </tr>
+
                         </tbody>
                     </table>
                 </div>

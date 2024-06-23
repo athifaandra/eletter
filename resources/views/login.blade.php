@@ -17,6 +17,9 @@
   <link rel="stylesheet" href="assets/css/components.css">
 
   <!-- SweetAlert CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+
+  <!-- SweetAlert JS -->
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <!-- Start GA -->
@@ -34,24 +37,6 @@
   <div id="app">
     <section class="section">
       <div class="container mt-5">
-        @if(Session::has('success'))
-          <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ Session::get('success') }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-        @endif
-
-        @if(Session::has('error'))
-          <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ Session::get('error') }}
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-        @endif
-
         <div class="row">
           <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
             <div class="login-brand text-center">
@@ -98,7 +83,6 @@
               </div>
             </div>
             <div class="simple-footer">
-
             </div>
           </div>
         </div>
@@ -115,12 +99,23 @@
   <script src="assets/modules/moment.min.js"></script>
   <script src="assets/js/stisla.js"></script>
 
-  <!-- JS Libraies -->
+  <!-- JS Libraries -->
 
   <!-- Page Specific JS File -->
 
   <!-- Template JS File -->
   <script src="assets/js/scripts.js"></script>
   <script src="assets/js/custom.js"></script>
+
+  <!-- SweetAlert Handling -->
+  @if(Session::has('error'))
+    <script>
+      Swal.fire({
+        icon: 'error',
+        title: 'Login Gagal',
+        text: '{{ Session::get('error') }}',
+      });
+    </script>
+  @endif
 </body>
 </html>
