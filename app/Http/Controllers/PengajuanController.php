@@ -103,4 +103,38 @@ class PengajuanController extends Controller
         return $pdf->stream('document.pdf');
     }
 
+    public function head()
+    {
+        $pengajuan = Pengajuan::with('user')->get();
+
+        \Carbon\Carbon::setLocale('id');
+
+        return view('head.head_daftar_pengajuan', compact('pengajuan'));
+    }
+
+    public function detail($id)
+    {
+        $pengajuan = Pengajuan::with('user')->findOrFail($id);
+        \Carbon\Carbon::setLocale('id');
+        return view('head.head_tindaklanjut_pengajuan', compact ('pengajuan'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        // Validasi input
+        $request->validate([
+            'status' => 'required|string',
+        ]);
+
+        // Cari pengajuan berdasarkan ID
+        $pengajuan = Pengajuan::findOrFail($id);
+
+        // Update status
+        $pengajuan->status = $request->status;
+        $pengajuan->save();
+
+        // Redirect atau berikan response
+        return redirect()->route('head.pengajuan')->with('success', 'Status berhasil diperbarui');
+    }
+
 }

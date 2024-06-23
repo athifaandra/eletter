@@ -8,6 +8,7 @@ use App\Http\Controllers\headController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ArsipController;
 use App\Http\Controllers\PengajuanController;
+use App\Models\Pengajuan;
 
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
@@ -77,13 +78,10 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/headagenda', [ArsipController::class, 'headagenda'])->name('head.agenda');
 
-        Route::get('/headdaftarpengajuan', function () {
-            return view('head/head_daftar_pengajuan');
-        });
 
-        Route::get('/headtindaklanjutpengajuan', function () {
-            return view('head/head_tindaklanjut_pengajuan');
-        });
+        Route::get('/headdaftarpengajuan', [PengajuanController::class, 'head']) -> name ('head.pengajuan');
+        Route::get('/headdaftarpengajuan/{id}', [PengajuanController::class, 'detail']) -> name ('head.pengajuandetail');
+        Route::put('/pengajuan/{id}', [PengajuanController::class, 'update'])->name('pengajuan.update');
 
         Route::get('/headprofil', function () {
             return view('head/head_profil');
