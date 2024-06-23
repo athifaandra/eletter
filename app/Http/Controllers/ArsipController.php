@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\ArsipMasuk;
 use App\Models\ArsipKeluar;
+use Illuminate\Support\Facades\DB;
 
 class ArsipController extends Controller
 {
@@ -198,7 +199,6 @@ class ArsipController extends Controller
 
     public function agenda(Request $request)
     {
-        // Menambahkan kolom 'jenis_surat' dengan alias yang berbeda untuk masing-masing union
         $suratKeluar = ArsipKeluar::select('nomor_agenda', 'nomor_surat', 'penerima as instansi', 'tanggal_agenda', 'ringkasan', \DB::raw("'keluar' as jenis_surat"));
         $suratMasuk = ArsipMasuk::select('nomor_agenda', 'nomor_surat', 'pengirim as instansi', 'tanggal_agenda', 'ringkasan', \DB::raw("'masuk' as jenis_surat"));
 
@@ -228,27 +228,62 @@ class ArsipController extends Controller
     }
 
 
-
-    public function staffagenda()
+    public function staffagenda(Request $request)
     {
-        $suratKeluar = ArsipKeluar::select('nomor_surat', 'penerima as instansi', 'nomor_agenda', 'tanggal_agenda', 'tanggal_surat', 'ringkasan', 'lampiran');
+        $suratKeluar = ArsipKeluar::select('nomor_agenda', 'nomor_surat', 'penerima as instansi', 'tanggal_agenda', 'ringkasan', \DB::raw("'keluar' as jenis_surat"));
+        $suratMasuk = ArsipMasuk::select('nomor_agenda', 'nomor_surat', 'pengirim as instansi', 'tanggal_agenda', 'ringkasan', \DB::raw("'masuk' as jenis_surat"));
 
-        $suratMasuk = ArsipMasuk::select('nomor_surat', 'pengirim as instansi', 'nomor_agenda', 'tanggal_agenda', 'tanggal_surat', 'ringkasan', 'lampiran');
+        // Filter berdasarkan jenis surat sebelum union
+        if ($request->jenis_surat) {
+            if ($request->jenis_surat == 'masuk') {
+                $suratKeluar = $suratKeluar->whereRaw('1 = 0');
+            } elseif ($request->jenis_surat == 'keluar') {
+                $suratMasuk = $suratMasuk->whereRaw('1 = 0');
+            }
+        }
 
         // Menggabungkan hasil dari kedua query
-        $dataSurat = $suratKeluar->union($suratMasuk)->get();
+        $dataSurat = $suratKeluar->union($suratMasuk);
+
+        // Filter berdasarkan tanggal setelah union
+        if ($request->dari_tanggal) {
+            $dataSurat = $dataSurat->where('tanggal_agenda', '>=', $request->dari_tanggal);
+        }
+        if ($request->sampai_tanggal) {
+            $dataSurat = $dataSurat->where('tanggal_agenda', '<=', $request->sampai_tanggal);
+        }
+
+        $dataSurat = $dataSurat->get();
 
         return view('staff.staff_agenda', compact('dataSurat'));
     }
 
-    public function headagenda()
+    public function headagenda(Request $request)
     {
-        $suratKeluar = ArsipKeluar::select('nomor_surat', 'penerima as instansi', 'nomor_agenda', 'tanggal_agenda', 'tanggal_surat', 'ringkasan', 'lampiran');
+        $suratKeluar = ArsipKeluar::select('nomor_agenda', 'nomor_surat', 'penerima as instansi', 'tanggal_agenda', 'ringkasan', \DB::raw("'keluar' as jenis_surat"));
+        $suratMasuk = ArsipMasuk::select('nomor_agenda', 'nomor_surat', 'pengirim as instansi', 'tanggal_agenda', 'ringkasan', \DB::raw("'masuk' as jenis_surat"));
 
-        $suratMasuk = ArsipMasuk::select('nomor_surat', 'pengirim as instansi', 'nomor_agenda', 'tanggal_agenda', 'tanggal_surat', 'ringkasan', 'lampiran');
+        // Filter berdasarkan jenis surat sebelum union
+        if ($request->jenis_surat) {
+            if ($request->jenis_surat == 'masuk') {
+                $suratKeluar = $suratKeluar->whereRaw('1 = 0');
+            } elseif ($request->jenis_surat == 'keluar') {
+                $suratMasuk = $suratMasuk->whereRaw('1 = 0');
+            }
+        }
 
         // Menggabungkan hasil dari kedua query
-        $dataSurat = $suratKeluar->union($suratMasuk)->get();
+        $dataSurat = $suratKeluar->union($suratMasuk);
+
+        // Filter berdasarkan tanggal setelah union
+        if ($request->dari_tanggal) {
+            $dataSurat = $dataSurat->where('tanggal_agenda', '>=', $request->dari_tanggal);
+        }
+        if ($request->sampai_tanggal) {
+            $dataSurat = $dataSurat->where('tanggal_agenda', '<=', $request->sampai_tanggal);
+        }
+
+        $dataSurat = $dataSurat->get();
 
         return view('head.head_agenda', compact('dataSurat'));
     }

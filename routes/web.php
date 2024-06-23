@@ -73,8 +73,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/headoutbox', [ArsipController::class, 'headoutbox']) -> name ('head.outbox');
         Route::get('/headoutbox/{id}', [ArsipController::class, 'headdetailoutbox']) -> name ('head.detailoutbox');
 
-
-        Route::get('/headagenda', [ArsipController::class, 'headagenda']) -> name ('head.agenda');
+        Route::get('/headagenda', [ArsipController::class, 'headagenda'])->name('head.agenda');
 
         Route::get('/headdaftarpengajuan', function () {
             return view('head/head_daftar_pengajuan');
