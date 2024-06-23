@@ -94,7 +94,7 @@
               <a href="/staffagenda" ><i class="fas fa-calendar"></i> <span>Agenda</span></a>
             </li>
             <li class="dropdown {{ Request::is('stafpengajuan')  ? 'active' : '' }}">
-              <a href="/stafpengajuan" ><i class="fas fa-calendar"></i> <span>Pengajuan</span></a>
+              <a href="/stafpengajuan" ><i class="fas fa-edit"></i> <span>Pengajuan</span></a>
             </li>
           </ul>
         </aside>

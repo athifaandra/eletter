@@ -36,7 +36,7 @@
                   <td>Surat Cuti</td>
                   <td>12 Maret 2024</td>
                   <td><div class="badge badge-success">Completed</div></td>
-                  <td><a href="#" class="btn btn-primary">Detail</a></td>
+                  <td><a href="/headtindaklanjutpengajuan" class="btn btn-primary">Detail</a></td>
                 </tr>
                 <tr>
                   <td>2</td>

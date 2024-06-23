@@ -15,6 +15,15 @@
         <div class="col-lg-6 col-md-8 col-12 col-sm-12">
             <div class="card">
                 <div class="card-body">
+                    @if ($errors->any())
+                        <script>
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: '{{ $errors->first("nip") }}',
+                            });
+                        </script>
+                    @endif
                     <div class="form-group">
                         <label for="name">Nama</label>
                         <input type="text" class="form-control" id="name" name="name" required>
@@ -47,5 +56,8 @@
         </div>
     </form>
 </div>
+
+<!-- Include SweetAlert library -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 @endsection

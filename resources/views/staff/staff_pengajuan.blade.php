@@ -27,17 +27,27 @@
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($pengajuan as $pengajuan)
                             <tr>
-                                <td>1</td>
-                                <td>Cuti Tahunan</td>
-                                <td>Disetujui</td>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $pengajuan->perihal }}</td>
+                                <td>{{ $pengajuan->status }}</td>
                                 <td>
+<<<<<<< HEAD
                                     <a href="#" class="btn btn-icon icon-left btn-info">
                                         <i class="fas fa-download"></i> Cetak
                                     </a>
                                 </td>
                             </tr>
 
+=======
+                                    <a href="{{ route('cetak', ['id' => $pengajuan->id]) }}" class="btn btn-icon icon-left btn-info">
+                                        <i class="fas fa-info-circle"></i> Cetak
+                                    </a>
+                                </td>
+                            </tr>
+                            @endforeach
+>>>>>>> 030c264b920f7b6d72be5876c400a0a56671fe91
                         </tbody>
                     </table>
                 </div>
