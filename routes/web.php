@@ -13,9 +13,6 @@ use App\Models\Pengajuan;
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
 
-Route::get('/pengajuancuti', function () { return view('surat_cuti'); });
-Route::get('/printcuti', function () { return view('print.print_cuti'); });
-
 Route::middleware(['auth'])->group(function () {
 
     Route::middleware(['role:admin'])->group(function () {
@@ -25,14 +22,6 @@ Route::middleware(['auth'])->group(function () {
             return view('admin/adm_editinbox');
         });
 
-        Route::get('/daftarpengajuan', function () {
-            return view('admin/adm_daftar_pengajuan');
-        });
-
-        Route::get('/statuspengajuan', function () {
-            return view('admin/adm_status_pengajuan');
-        });
-
         Route::get('/admininbox', [ArsipController::class, 'inbox']) -> name ('arsip.inbox');
         Route::get('/tambahinbox', [ArsipController::class, 'tambahinbox']) ->name('arsip.tambahinbox');
         Route::post('/tambahinbox', [ArsipController::class, 'storeinbox']) ->name ('arsip.storeinbox');
@@ -40,6 +29,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/editinbox/{id}', [ArsipController::class, 'editinbox']) -> name ('arsip.editinbox');
         Route::put('/updateinbox/{id}', [ArsipController::class, 'updateinbox']) -> name ('arsip.updateinbox');
         Route::delete('/hapusinbox/{arsipmasuk}', [ArsipController::class, 'destroyinbox'])->name('arsip.destroyinbox');
+
+        Route::get('/daftarpengajuan', [PengajuanController::class, 'admin']) -> name ('admin.pengajuan');
 
         Route::get('/adminoutbox', [ArsipController::class, 'outbox']) -> name ('arsip.outbox');
         Route::get('/tambahoutbox', [ArsipController::class, 'tambahoutbox']) ->name('arsip.tambahoutbox');
@@ -78,14 +69,9 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/headagenda', [ArsipController::class, 'headagenda'])->name('head.agenda');
 
-
         Route::get('/headdaftarpengajuan', [PengajuanController::class, 'head']) -> name ('head.pengajuan');
         Route::get('/headdaftarpengajuan/{id}', [PengajuanController::class, 'detail']) -> name ('head.pengajuandetail');
         Route::put('/pengajuan/{id}', [PengajuanController::class, 'update'])->name('pengajuan.update');
-
-        Route::get('/headprofil', function () {
-            return view('head/head_profil');
-        });
 
         Route::get('/headprofil', [headController::class, 'Profile'])->name('head.profile');
         Route::post('/profile/update', [headController::class, 'updateProfile'])->name('profile.update');
@@ -106,6 +92,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/stafcreate', [PengajuanController::class, 'create']) -> name ('staff.create');
         Route::post('/stafpengajuan/store', [PengajuanController::class, 'store'])->name('pengajuan.store');
         Route::get('/cetak-surat/{id}', [PengajuanController::class, 'cetak'])->name('cetak');
+        Route::delete('/hapuspengajuan/{id}', [PengajuanController::class, 'destroy'])->name('pengajuan.destroy');
 
         Route::get('/staffprofile', [staffController::class, 'profile'])->name('staff.profile');
         Route::put('/staff/update', [staffController::class, 'updateProfile'])->name('staff.updateProfile');

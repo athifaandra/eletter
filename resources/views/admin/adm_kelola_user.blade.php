@@ -36,10 +36,10 @@
                                 <td>{{$user->jabatan}}</td>
                                 <td>
                                     <div>
-                                        <form action="{{ route('user.destroy', $user->id) }}" method="POST" style="display:inline;" onsubmit="return confirmDeletion(event)">
+                                        <form action="{{ route('user.destroy', $user->id) }}" method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-icon icon-left btn-danger">
+                                            <button type="submit" class="btn btn-icon icon-left btn-danger" onclick="return confirm('Anda yakin ingin menghapus user ini?')">
                                                 <i class="far fa-trash-alt"></i> Hapus
                                             </button>
                                         </form>

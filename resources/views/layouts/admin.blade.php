@@ -123,16 +123,8 @@
                         <li class="dropdown {{ Request::is('agenda') ? 'active' : '' }}">
                             <a href="/agenda"><i class="fas fa-calendar"></i> <span>Agenda</span></a>
                         </li>
-                        <li
-                            class="dropdown {{ Request::is('daftarpengajuan') || Request::is('statuspengajuan') ? 'active' : '' }}">
-                            <a href="#" class="nav-link has-dropdown"><i class="fas fa-ellipsis-h"></i></i>
-                                <span>Pengajuan</span></a>
-                            <ul class="dropdown-menu">
-                                <li class="{{ Request::is('daftarpengajuan') ? 'active' : '' }}"><a class="nav-link"
-                                        href="/daftarpengajuan">Daftar Pengajuan</a></li>
-                                <li class="{{ Request::is('statuspengajuan') ? 'active' : '' }}"><a class="nav-link"
-                                        href="/statuspengajuan">Status Pengajuan</a></li>
-                            </ul>
+                        <li class="dropdown {{ Request::is('/daftarpengajuan') ? 'active' : '' }}">
+                            <a href="/daftarpengajuan"><i class="fas fa-edit"></i> <span>Daftar Pengajuan</span></a>
                         </li>
                         <li class="dropdown {{ Request::is('kelolauser') ? 'active' : '' }}">
                             <a href="/kelolauser"><i class="fas fa-user"></i> <span>Kelola User</span></a>

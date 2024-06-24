@@ -13,55 +13,61 @@
 <div class="section-body">
     <div class="card card-primary">
         <div class="list-group">
-            <a href="" class="list-group-item list-group-item-action flex-column align-items-start">
+            <a href="" class="list-group-item list-group-item-action flex-column align-items-start p-2">
                 <div class="d-flex w-100 justify-content-between">
                     <h5 class="mb-1">{{ $pengajuan->nomor_surat }}</h5>
                     <small>{{ \Carbon\Carbon::parse($pengajuan->tanggal_surat)->isoFormat('dddd, D MMMM YYYY') }}</small>
                 </div>
             </a>
         </div>
-        <div class="card-body">
+        <div class="card-body p-3">
             <form action="{{ route('pengajuan.update', $pengajuan->id) }}" method="POST">
                 @csrf
                 @method('PUT')
 
-                <div class="form-group row">
-                    <label class="col-sm-3 col-form-label">Perihal</label>
-                    <div class="col-sm-9">
-                        <label class="col-form-label">{{ $pengajuan->perihal }}</label>
-                    </div>
-                </div>
-                <div class="form-group row">
+                <div class="form-group row mb-2">
                     <label class="col-sm-3 col-form-label">Nama</label>
                     <div class="col-sm-9">
                         <label class="col-form-label">{{ $pengajuan->user->name }}</label>
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class="form-group row mb-2">
                     <label class="col-sm-3 col-form-label">NIP</label>
                     <div class="col-sm-9">
                         <label class="col-form-label">{{ $pengajuan->user->nip }}</label>
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class="form-group row mb-2">
+                    <label class="col-sm-3 col-form-label">Perihal</label>
+                    <div class="col-sm-9">
+                        <label class="col-form-label">{{ $pengajuan->perihal }}</label>
+                    </div>
+                </div>
+                <div class="form-group row mb-2">
+                    <label class="col-sm-3 col-form-label">Ringkasan</label>
+                    <div class="col-sm-9">
+                        <label class="col-form-label">{{ $pengajuan->ringkasan }}</label>
+                    </div>
+                </div>
+                <div class="form-group row mb-2">
                     <label class="col-sm-3 col-form-label">Jabatan</label>
                     <div class="col-sm-9">
                         <label class="col-form-label">{{ $pengajuan->user->jabatan }}</label>
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class="form-group row mb-2">
                     <label class="col-sm-3 col-form-label">Tanggal Mulai</label>
                     <div class="col-sm-9">
                         <label class="col-form-label">{{ \Carbon\Carbon::parse($pengajuan->tanggal_mulai)->format('d-m-Y') }}</label>
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class="form-group row mb-2">
                     <label class="col-sm-3 col-form-label">Tanggal Selesai</label>
                     <div class="col-sm-9">
                         <label class="col-form-label">{{ \Carbon\Carbon::parse($pengajuan->tanggal_selesai)->format('d-m-Y') }}</label>
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class="form-group row mb-2">
                     <label for="status" class="col-sm-3 col-form-label">Status Surat</label>
                     <div class="col-sm-4">
                         <select class="form-control" id="status" name="status" required>
@@ -71,7 +77,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="form-group row">
+                <div class="form-group row mb-2">
                     <div class="col-sm-9 offset-sm-3">
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>

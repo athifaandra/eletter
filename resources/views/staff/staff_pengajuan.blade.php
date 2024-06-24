@@ -16,47 +16,18 @@
                 </div>
             </div>
             <div class="card-body">
-<<<<<<< HEAD
                 @if($pengajuan->isEmpty())
                     <p>Tidak ada Pengajuan yang tersedia.</p>
                 @else
-                    <div class="table-responsive">
-                        <table class="table table-striped mb-0">
-                            <thead>
-                                <tr>
-                                    <th style="width: 10%;">Nomor</th>
-                                    <th style="width: 30%;">Jenis Pengajuan</th>
-                                    <th style="width: 30%;">Status Pengajuan</th>
-                                    <th style="width: 30%;">Cetak</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($pengajuan as $item)
-                                    <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->perihal }}</td>
-                                        <td>{{ $item->status }}</td>
-                                        <td>
-                                            <a href="{{ route('cetak', ['id' => $item->id]) }}" class="btn btn-icon icon-left btn-info">
-                                                <i class="fas fa-download"></i> Cetak
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                @endif
-=======
                 <div class="table-responsive">
                     <table class="table table-striped mb-0">
                         <thead>
                             <tr>
                                 <th style="width: 10%;">Nomor</th>
-                                <th style="width: 30%;">Tanggal Surat</th>
-                                <th style="width: 30%;">Jenis Pengajuan</th>
-                                <th style="width: 30%;">Status Pengajuan</th>
-                                <th style="width: 30%;">Aksi</th>
+                                <th style="width: 24%;">Tanggal Surat</th>
+                                <th style="width: 24%;">Jenis Pengajuan</th>
+                                <th style="width: 24%;">Status Pengajuan</th>
+                                <th style="width: 60%;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -67,16 +38,23 @@
                                 <td>{{ $pengajuan->perihal }}</td>
                                 <td>{{ $pengajuan->status }}</td>
                                 <td>
-                                    <a href="{{ route('cetak', ['id' => $pengajuan->id]) }}" class="btn btn-icon icon-left btn-info">
+                                    <a href="{{ route('cetak', ['id' => $pengajuan->id]) }}" class="btn btn-icon btn-sm icon-left btn-info">
                                         <i class="fas fa-download"></i> Cetak
                                     </a>
+                                    <form action="{{ route('pengajuan.destroy', $pengajuan->id) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-icon btn-sm icon-left btn-danger" onclick="return confirm('Anda yakin ingin menghapus pengajuan ini?')">
+                                            <i class="fas fa-trash"></i> Hapus
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
                 </div>
->>>>>>> ce4d2535785427d8db5b50e82ce50e4d776f99bb
+                @endif
             </div>
         </div>
     </div>

@@ -7,8 +7,6 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Pengajuan;
 use Dompdf\Dompdf;
 
-
-
 class PengajuanController extends Controller
 {
     public function index()
@@ -16,13 +14,13 @@ class PengajuanController extends Controller
         $user = Auth::user();
         $pengajuan = $user->pengajuan()->get();
 
-        return view ('staff/staff_pengajuan', compact('pengajuan'));
+        return view('staff.staff_pengajuan', compact('pengajuan'));
     }
 
     public function create()
     {
         $user = Auth::user();
-        return view('staff/staff_create', compact('user'));
+        return view('staff.staff_create', compact('user'));
     }
 
     public function store(Request $request)
@@ -38,6 +36,7 @@ class PengajuanController extends Controller
             'jenis_surat' => 'required',
         ]);
 
+        // Fungsi untuk mendapatkan bulan Romawi dari tanggal
         function getRomawi($month)
         {
             $romawi = [
@@ -58,20 +57,32 @@ class PengajuanController extends Controller
             return $romawi[intval($month)];
         }
 
-        $lastPengajuan = Pengajuan::whereYear('tanggal_surat', date('Y'))->orderBy('id', 'desc')->first();
-        $lastNumber = $lastPengajuan ? intval(explode('.', explode('/', $lastPengajuan->nomor_surat)[2])[0]) : 0;
-        $newNumber = str_pad($lastNumber + 1, 3, '0', STR_PAD_LEFT);
-        $month = getRomawi(date('m'));
-        $year = date('Y');
+        // Ambil pengguna yang sedang login
+        $user = Auth::user();
 
+        // Tentukan jenis surat (Permohonan Cuti atau Permohonan Tugas)
+        $jenisSurat = $request->jenis_surat == 'Permohonan Cuti' ? 'PC' : 'PT';
+
+        // Ambil pengajuan terakhir dalam tahun ini untuk jenis surat yang sama
+        $lastPengajuan = Pengajuan::whereYear('tanggal_surat', now()->year)
+                            ->where('perihal', $request->jenis_surat)
+                            ->orderBy('id', 'desc')
+                            ->first();
+
+        // Hitung nomor surat yang baru
+        $newNumber = $lastPengajuan ? intval(explode('.', explode('/', $lastPengajuan->nomor_surat)[2])[1]) + 1 : 1;
+        $newNumberPadded = str_pad($newNumber, 3, '0', STR_PAD_LEFT);
+
+        // Dapatkan bulan dalam format Romawi
+        $monthRoman = getRomawi(date('m'));
+
+        // Buat nomor surat baru dengan format yang diharapkan
+        $nomorSurat = "B-1154/1371/$jenisSurat.$newNumberPadded/$monthRoman/" . now()->format('Y');
+
+        // Status default pengajuan
         $statusPengajuan = 'Proses';
 
-        if ($request->jenis_surat == 'Permohonan Cuti') {
-            $nomorSurat = "B-1154/1371/PC.$newNumber/$month/$year";
-        } else {
-            $nomorSurat = "B-1154/1371/PT.$newNumber/$month/$year";
-        }
-
+        // Simpan pengajuan ke dalam database
         $pengajuan = new Pengajuan();
         $pengajuan->nip = $request->nip;
         $pengajuan->nomor_surat = $nomorSurat;
@@ -84,8 +95,10 @@ class PengajuanController extends Controller
         $pengajuan->status = $statusPengajuan;
         $pengajuan->save();
 
+        // Redirect ke halaman pengajuan dengan pesan sukses
         return redirect()->route('staff.pengajuan')->with('success', 'Pengajuan berhasil dikirim.');
     }
+
 
     public function cetak($id)
     {
@@ -94,13 +107,20 @@ class PengajuanController extends Controller
         $pengajuan = Pengajuan::findOrFail($id);
 
         $pdf = new Dompdf();
-        $pdf->loadHtml(view('print.cuti', ['pengajuan' => $pengajuan])->render());
+        $pdf->loadHtml(view('print.cetak-pengajuan', ['pengajuan' => $pengajuan])->render());
 
         // Render the PDF (not necessary if you want to download directly)
         $pdf->render();
 
         // Download the generated PDF
         return $pdf->stream('document.pdf');
+    }
+
+    public function destroy($id)
+    {
+        $pengajuan = Pengajuan::findOrFail($id);
+        $pengajuan->delete();
+        return redirect()->route('staff.pengajuan')->with('success', 'Pengajuan berhasil dihapus.');
     }
 
     public function head()
@@ -116,7 +136,7 @@ class PengajuanController extends Controller
     {
         $pengajuan = Pengajuan::with('user')->findOrFail($id);
         \Carbon\Carbon::setLocale('id');
-        return view('head.head_tindaklanjut_pengajuan', compact ('pengajuan'));
+        return view('head.head_tindaklanjut_pengajuan', compact('pengajuan'));
     }
 
     public function update(Request $request, $id)
@@ -137,4 +157,14 @@ class PengajuanController extends Controller
         return redirect()->route('head.pengajuan')->with('success', 'Status berhasil diperbarui');
     }
 
+    public function admin()
+    {
+        $pengajuan = Pengajuan::with('user')->get();
+
+        \Carbon\Carbon::setLocale('id');
+
+        return view('admin.adm_daftar_pengajuan', compact('pengajuan'));
+    }
+
+    
 }

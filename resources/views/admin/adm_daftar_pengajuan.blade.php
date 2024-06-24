@@ -14,40 +14,33 @@
         <div class="card">
           <div class="card-header">
             <div class="card-header-form">
-                <a href="#" class="btn btn-icon icon-left btn-primary">
-                    <i class="fas fa-plus"></i> Tambah Pengajuan
-                </a>
+
             </div>
           </div>
           <div class="card-body p-0">
             <div class="table-responsive">
               <table class="table table-striped">
-                <tbody><tr>
-                  <th>No.</th>
-                  <th>Nama Pemohon</th>
-                  <th>Jenis Surat</th>
-                  <th>Tanggal</th>
-                  <th>Status</th>
-                  <th>Aksi</th>
-                </tr>
-                <tr>
-                  <td>1</td>
-                  <td>Athifa Rifda</td>
-                  <td>Surat Cuti</td>
-                  <td>12 Maret 2024</td>
-                  <td><div class="badge badge-success">Completed</div></td>
-                  <td><a href="#" class="btn btn-primary">Detail</a></td>
-                </tr>
-                <tr>
-                  <td>2</td>
-                  <td>Athifa Rifda</td>
-                  <td>Surat Cuti</td>
-                  <td>12 Maret 2024</td>
-                  <td><div class="badge badge-info">Todo</div></td>
-                  <td><a href="#" class="btn btn-primary">Detail</a></td>
-                </tr>
-
-              </tbody></table>
+                <thead>
+                  <tr>
+                    <th>No.</th>
+                    <th>Nama Pemohon</th>
+                    <th>Jenis Surat</th>
+                    <th>Tanggal</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  @foreach($pengajuan as $item)
+                  <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td>{{ $item->user->name }}</td>
+                    <td>{{ $item->perihal }}</td>
+                    <td>{{ \Carbon\Carbon::parse($item->tanggal_surat)->format('d-m-Y') }}</td>
+                    <td>{{ $item->status }}</td>
+                  </tr>
+                  @endforeach
+                </tbody>
+              </table>
             </div>
           </div>
         </div>

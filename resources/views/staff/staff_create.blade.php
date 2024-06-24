@@ -14,15 +14,15 @@
     <div class="form-row">
       <div class="form-group col-md-4">
         <label for="inputName">Nama</label>
-        <input type="text" class="form-control" id="name" name="name" value="{{ $user->name }}" required>
+        <input type="text" class="form-control" id="name" name="name" value="{{ $user->name }}" readonly>
       </div>
       <div class="form-group col-md-4">
         <label for="nip">NIP</label>
-        <input type="text" class="form-control" id="nip" name="nip" value="{{ $user->nip }}" required>
+        <input type="text" class="form-control" id="nip" name="nip" value="{{ $user->nip }}" readonly>
       </div>
       <div class="form-group col-md-4">
         <label for="jabatan">Jabatan</label>
-        <input type="text" class="form-control" id="jabatan" name="jabatan" value="{{ $user->jabatan }}" required>
+        <input type="text" class="form-control" id="jabatan" name="jabatan" value="{{ $user->jabatan }}" readonly>
       </div>
     </div>
     <div class="form-row">
